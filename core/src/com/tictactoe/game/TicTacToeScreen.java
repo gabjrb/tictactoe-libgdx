@@ -53,7 +53,6 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
     TictactoeGame game;
     private Camera camera;
     private Viewport viewport;
-    
     private Viewport screenViewport;
     private Stage stage;
     private TextureAtlas atlas;
@@ -111,14 +110,9 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
         board = new TicTacToeBoard();
         renderer = new ShapeRenderer();
 
-
-
-
-
         ImageTextButton.ImageTextButtonStyle imageTextButtonStyle = new ImageTextButton.ImageTextButtonStyle();
         imageTextButtonStyle.imageUp = skin.getDrawable("back");
         imageTextButtonStyle.font = GameConstants.getBitmapFont(GameConstants.FontType.Regular, 36);
-
 
         backButton = new ImageTextButton("Back", imageTextButtonStyle);
         pauseButton = new ImageButton(skin.getDrawable("pause-game"));
@@ -145,14 +139,10 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
         restartButton.getImageCell().height(75);
         restartButton.getImage().setScaling(Scaling.stretch);
 
-
-
-
         lblTimePassedCount = GameConstants.CreateLabel("1:23", GameConstants.FontType.Regular, 48);
-        lblGameMessages = GameConstants.CreateLabel("Thinking", GameConstants.FontType.Regular, 48);
+        lblGameMessages = GameConstants.CreateLabel("Thinking...", GameConstants.FontType.Regular, 48);
         lblGameBoxAdvertising = GameConstants.CreateLabel("Box for advertising", GameConstants.FontType.Bold, 24);
         lblTimePassedText = GameConstants.CreateLabel("TIME PASSED", GameConstants.FontType.Bold, 24);
-
 
         scorePlayerOneText = GameConstants.CreateLabel("Computer", GameConstants.FontType.Bold, 28);
         scorePlayerTwoText = GameConstants.CreateLabel("Gabriel", GameConstants.FontType.Bold, 28);
@@ -162,13 +152,10 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
         scoreTiesValue = GameConstants.CreateLabel("2", GameConstants.FontType.Regular, 48);
         scorePlayerTwoValue = GameConstants.CreateLabel("3", GameConstants.FontType.Regular, 48);
 
-
         timePassed = new VerticalGroup();
         timePassed.addActor(lblTimePassedCount);
         timePassed.addActor(lblTimePassedText);
-
-
-
+        
         boardHeader = new Table();
 
         boardHeader.add(backButton).width(150);

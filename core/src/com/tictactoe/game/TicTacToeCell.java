@@ -8,34 +8,22 @@ import com.badlogic.gdx.math.Vector2;
 
 public class TicTacToeCell {
 
-    private int width;
-    private int heigth;
-    private Vector2 position;
-    private CellType cellType;
+    Vector2 position;
+    CellBrand cellBrand;
 
-    public enum CellType{
+    public TicTacToeCell(TicTacToeCell cell){
+        this.position = cell.position;
+        this.cellBrand = cell.cellBrand;
+    }
+
+    public TicTacToeCell(Vector2 position){
+        this.position = position;
+        this.cellBrand = CellBrand.NOTHING;
+    }
+
+    public enum CellBrand{
         CROSS,
         CIRCLE,
         NOTHING
-    }
-
-    public TicTacToeCell(int width, int heigth, Vector2 position, CellType cellType)
-    {
-        this.width = width;
-        this.heigth = heigth;
-        this.position = position;
-        this.cellType = cellType;
-    }
-
-    public Vector2 getPosition() {
-        return position;
-    }
-
-    public int getHeigth() {
-        return heigth;
-    }
-
-    public int getWidth() {
-        return width;
     }
 }

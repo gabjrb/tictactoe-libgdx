@@ -60,6 +60,8 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
     private ShapeRenderer renderer;
     private SpriteBatch spriteBatch;
     private TicTacToeBoard board;
+    private Player player;
+    private AIPlayer playerAI;
     private Label scorePlayerOneText;
     private Label scorePlayerTwoText;
     private Label scoreTiesText;
@@ -108,6 +110,11 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
         skin = new Skin(Gdx.files.internal("ui/tictactoe-ui.json"), atlas);
         spriteBatch = new SpriteBatch();
         board = new TicTacToeBoard();
+
+        player = new Player(board, Player.PlayerType.PLAYER_TYPE_X);
+        playerAI = new AIPlayer(board, Player.PlayerType.PLAYER_TYPE_O, new MinimaxStrategy());
+
+
         renderer = new ShapeRenderer();
 
         ImageTextButton.ImageTextButtonStyle imageTextButtonStyle = new ImageTextButton.ImageTextButtonStyle();
@@ -155,7 +162,7 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
         timePassed = new VerticalGroup();
         timePassed.addActor(lblTimePassedCount);
         timePassed.addActor(lblTimePassedText);
-        
+
         boardHeader = new Table();
 
         boardHeader.add(backButton).width(150);
@@ -191,8 +198,6 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
         rootTable.add(boardScore).width(screenViewport.getScreenWidth()).height(150);
         rootTable.row();
         rootTable.add(lblGameBoxAdvertising).height(150);
-        board.handleTouch(new Vector2(GameConstants.HorizontalShift, GameConstants.Elevation), "circle");
-        board.handleTouch(new Vector2(4 + GameConstants.HorizontalShift, GameConstants.Elevation), "cross");
     }
 
     @Override
@@ -231,10 +236,21 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
         Vector2 worldTouch = viewport.unproject(new Vector2(screenX, screenY));
 
         Vector2 boardGridVector = getCellOrigin(worldTouch);
+        board.setCell(boardGridVector,player.playerType.getBrand());
+        boardGridVector.x = GameConstants.HorizontalShift + (boardGridVector.x*4);
+        boardGridVector.y =GameConstants.Elevation + (boardGridVector.y*4);
 
         if (boardGridVector.x != 0 && boardGridVector.y !=0){
-            board.handleTouch(boardGridVector, "circle");
+            board.handleTouch(boardGridVector, player.getPlayerType());
         }
+
+        Vector2 bestPosition = playerAI.makeAIMove();
+
+        board.setCell(bestPosition, playerAI.playerType.getBrand());
+        bestPosition.x = GameConstants.HorizontalShift + (bestPosition.x*4);
+        bestPosition.y =GameConstants.Elevation + (bestPosition.y*4);
+        board.handleTouch(bestPosition, playerAI.playerType);
+
         return true;
     }
 
@@ -243,7 +259,7 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
         for (int i = 0; i < 3 ; i++) {
             for (int j = 0; j < 3 ; j++) {
                 if (v.x >= GameConstants.HorizontalShift + (i*4) && v.x <= (GameConstants.HorizontalShift + GameConstants.CELL_SIZE.x + (i*4)) && v.y >= GameConstants.Elevation + (j*4) && v.y <= (GameConstants.Elevation + GameConstants.CELL_SIZE.y + (j*4))){
-                    return new Vector2(GameConstants.HorizontalShift + (i*4), GameConstants.Elevation + (j*4));
+                    return new Vector2(i, j);
                 }
             }
         }

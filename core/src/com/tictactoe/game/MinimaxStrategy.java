@@ -34,7 +34,6 @@ public class MinimaxStrategy {
             return new Results(board.getScore(), new Vector2(-1, -1));
         }
 
-
         int bestScore = (playerType == Player.PlayerType.PLAYER_TYPE_X) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         Vector2 bestPosition = new Vector2(-1,-1);
 

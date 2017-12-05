@@ -26,42 +26,6 @@ public class GameConstants {
     public static final int Elevation = 6;
     public static final int HorizontalShift = 1;
 
-    public enum FontType{
-        Regular,
-        Bold
-    }
-
-    public static final Label CreateLabel(String text, FontType fontType, int size){
-        return CreateLabel(text, fontType,size, Color.BLACK);
-    }
-
-    public static final Label CreateLabel(String text, FontType fontType, int size, Color color){
-        Label.LabelStyle styleLbl = new Label.LabelStyle(GameConstants.getBitmapFont(fontType,size), color);
-        return new Label(text, styleLbl);
-    }
-
-    public static final BitmapFont getBitmapFont(FontType fontType, int size)
-    {
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/OpenSans-Regular.ttf"));
-
-        switch (fontType) {
-            case Regular:
-                fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/OpenSans-Regular.ttf"));
-                break;
-            case Bold:
-                fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/OpenSans-Bold.ttf"));
-                break;
-        }
-
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameter.size = (int)Math.ceil(size);
-        fontGenerator.scaleForPixelHeight((int)Math.ceil(size));
-        fontParameter.minFilter = Texture.TextureFilter.Nearest;
-        fontParameter.magFilter = Texture.TextureFilter.MipMapLinearNearest;
-        fontParameter.color = Color.BLACK;
-
-        return fontGenerator.generateFont(fontParameter);
-    }
 
     public static final Vector2[][] WINNING_PATTERNS = new Vector2[][]{
             { new Vector2(0, 0), new Vector2(0, 1), new Vector2(0, 2) },

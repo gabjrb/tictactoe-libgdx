@@ -93,8 +93,7 @@ public class TicTacToeBoard {
     }
 
     public void reset() {
-        circles.clear();
-        crosses.clear();
+
     }
 
     public void handleTouch(Vector2 position, Player.PlayerType playerType)
@@ -110,12 +109,14 @@ public class TicTacToeBoard {
         }
     }
 
-    public void setCell(Vector2 position, TicTacToeCell.CellBrand brand) {
+    public boolean setCell(Vector2 position, TicTacToeCell.CellBrand brand) {
         if (cells[(int)position.x][(int)position.y].cellBrand == TicTacToeCell.CellBrand.NOTHING) {
             cells[(int)position.x][(int)position.y].cellBrand = brand;
         } else {
             Gdx.app.log(TAG, "cell already taken");
+            return false;
         }
+        return true;
     }
 
     public class ShapeData{

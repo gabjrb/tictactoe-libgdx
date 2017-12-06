@@ -6,14 +6,14 @@ filter: Nearest,Nearest
 repeat: none
 back
   rotate: false
-  xy: 2, 1074
+  xy: 2, 1270
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 button
   rotate: false
-  xy: 2, 2
+  xy: 516, 587
   size: 56, 42
   split: 18, 18, 0, 0
   pad: 13, 14, 3, 2
@@ -22,7 +22,7 @@ button
   index: -1
 button-pressed
   rotate: false
-  xy: 516, 888
+  xy: 144, 198
   size: 56, 42
   split: 18, 18, 0, 0
   pad: 13, 14, 3, 2
@@ -31,36 +31,71 @@ button-pressed
   index: -1
 circle
   rotate: false
-  xy: 1030, 1446
+  xy: 516, 631
   size: 140, 140
   orig: 140, 140
   offset: 0, 0
   index: -1
 cross
   rotate: false
-  xy: 516, 932
+  xy: 2, 100
   size: 140, 140
   orig: 140, 140
   offset: 0, 0
   index: -1
+no-sound
+  rotate: false
+  xy: 2, 2
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
 pause-game
   rotate: false
-  xy: 2, 560
+  xy: 2, 756
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 play-game
   rotate: false
-  xy: 516, 1074
+  xy: 2, 242
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
+rate-game
+  rotate: false
+  xy: 1030, 1317
+  size: 512, 465
+  orig: 512, 465
+  offset: 0, 0
+  index: -1
 restart-game
   rotate: false
-  xy: 2, 46
+  xy: 516, 1270
   size: 512, 512
   orig: 512, 512
+  offset: 0, 0
+  index: -1
+share-game
+  rotate: false
+  xy: 516, 773
+  size: 512, 495
+  orig: 512, 495
+  offset: 0, 0
+  index: -1
+sound
+  rotate: false
+  xy: 1544, 1686
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
+sound-fx
+  rotate: false
+  xy: 1030, 1219
+  size: 96, 96
+  orig: 96, 96
   offset: 0, 0
   index: -1

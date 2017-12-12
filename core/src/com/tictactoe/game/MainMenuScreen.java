@@ -16,11 +16,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
@@ -44,9 +46,10 @@ public class MainMenuScreen extends InputAdapter implements Screen {
     private Table menuTable;
     private Table footerButtonsTable;
     private Skin skin;
-    private TextButton btnPlayOne, btnPlayTwo, btnOptions, btnExit;
-    private ImageButton btnShare, btnRate;
+    private ImageTextButton btnOptions, btnShare, btnAbout;
+    private ImageButton btnPlay;
     private Label lblTitle;
+    private Label lblGameBoxAdvertising;
     private FreeTypeFontGenerator fontGenerator;
     private Camera camera;
     private Viewport viewport;
@@ -81,60 +84,89 @@ public class MainMenuScreen extends InputAdapter implements Screen {
 
         fontButtonParameter.size = (int)Math.ceil(36);
 
+        fontButtonParameter.minFilter = Texture.TextureFilter.Linear;
+
+        fontButtonParameter.magFilter = Texture.TextureFilter.Linear;
+
         fontButtonGenerator.scaleForPixelHeight((int)Math.ceil(36));
 
-        NinePatch patch = new NinePatch(atlas.findRegion("button"), 20, 20, 20, 20);
-
-        NinePatchDrawable ninePatchDrawableUP = new NinePatchDrawable(patch);
-
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = fontButtonGenerator.generateFont(fontButtonParameter);
-        buttonStyle.up = ninePatchDrawableUP;
-        buttonStyle.down = skin.getDrawable("button-pressed");
+        BitmapFont font = fontButtonGenerator.generateFont(fontButtonParameter);
 
         //
-        // One Player
+        // Button PLay
         //
-        btnPlayOne = new TextButton("One Player", buttonStyle);
-        btnPlayOne.setColor(new Color(0,0.35f,1,1));
-        btnPlayOne.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new TicTacToeScreen(game));
-            }
-        });
+        btnPlay = new ImageButton(skin.getDrawable("play"));
+        btnPlay.getImageCell().height(256);
+        btnPlay.getImageCell().width(256);
+
+        ImageTextButton.ImageTextButtonStyle imgTextButtonStyle = new ImageTextButton.ImageTextButtonStyle();
+        imgTextButtonStyle.up = skin.getDrawable("button");
+        imgTextButtonStyle.down = skin.newDrawable("round-green");
+        imgTextButtonStyle.imageUp = skin.newDrawable("options-white", Color.WHITE);
+        imgTextButtonStyle.font = font;
+
+        ImageTextButton.ImageTextButtonStyle imgTextButtonStyle2 = new ImageTextButton.ImageTextButtonStyle();
+        imgTextButtonStyle2.up = skin.getDrawable("button");
+        imgTextButtonStyle2.down = skin.newDrawable("round-green");
+        imgTextButtonStyle2.imageUp = skin.newDrawable("share-white", Color.WHITE);
+        imgTextButtonStyle2.font = font;
+
+        ImageTextButton.ImageTextButtonStyle imgTextButtonStyle3 = new ImageTextButton.ImageTextButtonStyle();
+        imgTextButtonStyle3.up = skin.getDrawable("button");
+        imgTextButtonStyle3.down = skin.newDrawable("round-green");
+        imgTextButtonStyle3.imageUp = skin.newDrawable("about-white", Color.WHITE);
+        imgTextButtonStyle3.font = font;
+
         //
-        // Two Player
+        // Button Options
         //
-        btnPlayTwo = new TextButton("Two Player", buttonStyle);
-        btnPlayTwo.setColor(new Color(0,0.35f,1,1));
-        btnPlayTwo.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new TicTacToeScreen(game));
-            }
-        });
-        //
-        // Options
-        //
-        btnOptions = new TextButton("Options", buttonStyle);
+        btnOptions = new ImageTextButton("Options", imgTextButtonStyle);
+        btnOptions.getImageCell().width(64);
+        btnOptions.getImageCell().height(64);
+        btnOptions.getLabelCell().width(200).align(Align.right);
+//        btnOptions.getStyle().down.tint(Color.WHITE);
         btnOptions.setColor(new Color(0,0.35f,1,1));
-        //
-        // Exit
-        //
-        btnExit = new TextButton("Exit", buttonStyle);
-        btnExit.setColor(new Color(0,0.35f,1,1));
-        btnExit.addListener(new ClickListener() {
+
+        btnOptions.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Gdx.app.exit();
+                game.setScreen(new TicTacToeScreen(game));
+            }
+        });
+        //
+        // Button Share
+        //
+        btnShare = new ImageTextButton("Share", imgTextButtonStyle2);
+        btnShare.getImageCell().width(64);
+        btnShare.getImageCell().height(64);
+        btnShare.getLabelCell().width(200).align(Align.right);
+        btnShare.setColor(new Color(0,0.35f,1,1));
+        btnShare.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new TicTacToeScreen(game));
+            }
+        });
+        //
+        // Button Share
+        //
+        btnAbout = new ImageTextButton("About", imgTextButtonStyle3);
+//        btnAbout.getStyle().imageUp = skin.getDrawable("about-white");
+        btnAbout.getImageCell().width(64);
+        btnAbout.getImageCell().height(64);
+        btnAbout.getLabelCell().width(200).align(Align.right);
+        btnAbout.setColor(new Color(0,0.35f,1,1));
+        btnAbout.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new TicTacToeScreen(game));
             }
         });
 
-        btnPlayOne.pad(15);
-        btnPlayTwo.pad(15);
+        btnPlay.pad(15);
         btnOptions.pad(15);
-        btnExit.pad(15);
+        btnShare.pad(15);
+        btnAbout.pad(15);
 
         fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/OpenSans-Bold.ttf"));
 
@@ -144,71 +176,47 @@ public class MainMenuScreen extends InputAdapter implements Screen {
 
         fontGenerator.scaleForPixelHeight((int)Math.ceil(96));
 
-        fontParameter.minFilter = Texture.TextureFilter.Nearest;
+        fontParameter.minFilter = Texture.TextureFilter.Linear;
 
-        fontParameter.magFilter = Texture.TextureFilter.MipMapLinearNearest;
+        fontParameter.magFilter = Texture.TextureFilter.Linear;
 
         Label.LabelStyle styleLbl = new Label.LabelStyle(fontGenerator.generateFont(fontParameter), Color.BLACK);
         lblTitle = new Label("TicTacToe", styleLbl);
 
+        fontParameter.size = (int)Math.ceil(24);
+
+        fontGenerator.scaleForPixelHeight((int)Math.ceil(24));
+        styleLbl = new Label.LabelStyle(fontGenerator.generateFont(fontParameter), Color.BLACK);
+        lblGameBoxAdvertising = new Label("Box for advertising", styleLbl);
+
 
         menuTable = new Table();
-        menuTable.add(btnPlayOne).height(100).width(300).padBottom(30);
-        menuTable.row();
-        menuTable.add(btnPlayTwo).height(100).width(300).padBottom(30);
+        menuTable.add(btnPlay).height(256).width(256).padBottom(45);
         menuTable.row();
         menuTable.add(btnOptions).height(100).width(300).padBottom(30);
         menuTable.row();
-        menuTable.add(btnExit).height(100).width(300);
-
-        footerButtonsTable = new Table();
-
-        btnRate = new ImageButton(skin.getDrawable("rate-game"));
-        btnShare = new ImageButton(skin.getDrawable("share-game"));
-
-        btnRate.setWidth(75);
-        btnRate.setHeight(75);
-        btnRate.getImageCell().width(75);
-        btnRate.getImageCell().height(75);
-        btnRate.getImage().setScaling(Scaling.stretch);
-
-        btnShare.setWidth(75);
-        btnShare.setHeight(75);
-        btnShare.getImageCell().width(75);
-        btnShare.getImageCell().height(75);
-        btnShare.getImage().setScaling(Scaling.stretch);
-
-        footerButtonsTable.add(btnShare).expand();
-        footerButtonsTable.add().width(150);
-        footerButtonsTable.add(btnRate).expand();
+        menuTable.add(btnShare).height(100).width(300).padBottom(30);
+        menuTable.row();
+        menuTable.add(btnAbout).height(100).width(300);
 
         rootTable.add(lblTitle).height(200);
         rootTable.row();
         rootTable.add(menuTable).expand();
         rootTable.row();
-        rootTable.add(footerButtonsTable);
-        rootTable.row();
-        rootTable.add().height(150);
-
-
+        rootTable.add(lblGameBoxAdvertising).height(150);
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1,1,1,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        viewport.apply();
-        stage.getViewport().apply();
-
-        stage.act(delta);
-        stage.draw();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); viewport.apply();
+        stage.getViewport().apply(); stage.act(delta); stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
         stage.getViewport().update(width, height,true);
-//        table.invalidateHierarchy();
     }
 
     @Override

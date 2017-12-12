@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 public class GameConstants {
 
 //    public static final Vector2 WORLD_SIZE = new Vector2(800f, 450f);
+//    public static final Vector2 WORLD_SIZE = new Vector2(1280f, 720f);
     public static final Vector2 WORLD_SIZE = new Vector2(640f, 360f);
 
     public static final Vector2 BOARD_SIZE = new Vector2(12,12);

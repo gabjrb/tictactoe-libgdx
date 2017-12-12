@@ -20,7 +20,8 @@
             "g": 1,
             "b": 1,
             "a": 1
-        }
+        },
+        "green": { "r": 0, "g": 1, "b": 0, "a": 1 }
     },
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
         "default": {
@@ -35,5 +36,9 @@
             "font": "default-font",
             "fontColor": "white"
         }
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+        "round-green": { "name": "button", "color": "green" },
+        "settings-white": { "name": "options-white", "color": "green" }
     }
 }

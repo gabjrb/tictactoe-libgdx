@@ -13,6 +13,11 @@ public class TictactoeGame extends Game {
 	@Override
 	public void create()
 	{
-		setScreen(new MainMenuScreen(this));
+		setScreen(new SplashScreen(this));
 	}
+
+	//	public void create()
+//	{
+//		setScreen(new MainMenuScreen(this));
+//	}
 }

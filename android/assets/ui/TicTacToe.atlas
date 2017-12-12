@@ -2,27 +2,34 @@
 TicTacToe.png
 size: 2048,2048
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
+about-white
+  rotate: false
+  xy: 2, 188
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
 back
   rotate: false
-  xy: 2, 1270
+  xy: 2, 1216
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 button
   rotate: false
-  xy: 516, 587
+  xy: 2, 2
   size: 56, 42
-  split: 18, 18, 0, 0
-  pad: 13, 14, 3, 2
+  split: 18, 19, 14, 14
+  pad: 0, 0, 0, 0
   orig: 56, 42
   offset: 0, 0
   index: -1
 button-pressed
   rotate: false
-  xy: 144, 198
+  xy: 144, 144
   size: 56, 42
   split: 18, 18, 0, 0
   pad: 13, 14, 3, 2
@@ -31,71 +38,64 @@ button-pressed
   index: -1
 circle
   rotate: false
-  xy: 516, 631
+  xy: 1544, 1588
   size: 140, 140
   orig: 140, 140
   offset: 0, 0
   index: -1
 cross
   rotate: false
-  xy: 2, 100
+  xy: 2, 46
   size: 140, 140
   orig: 140, 140
   offset: 0, 0
   index: -1
-no-sound
+database
   rotate: false
-  xy: 2, 2
-  size: 96, 96
-  orig: 96, 96
+  xy: 1030, 188
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+home
+  rotate: false
+  xy: 516, 702
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+options-white
+  rotate: false
+  xy: 1030, 1216
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1
 pause-game
   rotate: false
-  xy: 2, 756
+  xy: 2, 702
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
-play-game
+play
   rotate: false
-  xy: 2, 242
+  xy: 1030, 702
   size: 512, 512
   orig: 512, 512
-  offset: 0, 0
-  index: -1
-rate-game
-  rotate: false
-  xy: 1030, 1317
-  size: 512, 465
-  orig: 512, 465
   offset: 0, 0
   index: -1
 restart-game
   rotate: false
-  xy: 516, 1270
+  xy: 516, 1216
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
-share-game
+share-white
   rotate: false
-  xy: 516, 773
-  size: 512, 495
-  orig: 512, 495
-  offset: 0, 0
-  index: -1
-sound
-  rotate: false
-  xy: 1544, 1686
-  size: 96, 96
-  orig: 96, 96
-  offset: 0, 0
-  index: -1
-sound-fx
-  rotate: false
-  xy: 1030, 1219
-  size: 96, 96
-  orig: 96, 96
+  xy: 516, 188
+  size: 512, 512
+  orig: 512, 512
   offset: 0, 0
   index: -1

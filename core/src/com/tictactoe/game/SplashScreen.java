@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.tictactoe.tween.SpriteAssessor;
-
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
@@ -39,10 +38,10 @@ public class SplashScreen implements Screen {
         splash = new Sprite(logo);
 
         Tween.set(splash, SpriteAssessor.ALPHA).target(0).start(tweenManager);
-        Tween.to(splash, SpriteAssessor.ALPHA, 2f).target(1).repeatYoyo(1,2).setCallback(new TweenCallback() {
+        Tween.to(splash, SpriteAssessor.ALPHA, 2f).target(1).repeatYoyo(1,1f).setCallback(new TweenCallback() {
             @Override
             public void onEvent(int type, BaseTween<?> source) {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new MainMenuScreen(game));
+                ((Game)Gdx.app.getApplicationListener()).setScreen(new LoadingScreen(game));
             }
         }).start(tweenManager);
     }

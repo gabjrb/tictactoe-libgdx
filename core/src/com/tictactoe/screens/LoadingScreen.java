@@ -1,4 +1,4 @@
-package com.tictactoe.game;
+package com.tictactoe.screens;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -10,23 +10,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tictactoe.assets.Assets;
+import com.tictactoe.game.MainMenuScreen;
+import com.tictactoe.game.TictactoeGame;
 
 /**
  * Created by Gabriel on 12/12/2017.
  */
 
-public class LoadingScreen implements Screen {
+public class LoadingScreen extends BaseScreen {
 
-    TictactoeGame game;
     private TextureAtlas atlas;
     private Stage stage;
     private Skin skin;
     private Label loading;
 
     public LoadingScreen(TictactoeGame game){
-        this.game = game;
+        super(game);
     }
-
 
     @Override
     public void show() {

@@ -63,10 +63,6 @@ public class MainMenuScreen extends InputAdapter implements Screen {
     @Override
     public void show() {
 
-        Assets assets = new Assets();
-        assets.load();
-        assets.manager.finishLoading();
-
         camera = new OrthographicCamera();
 
         viewport = new ExtendViewport(GameConstants.WORLD_SIZE.x, GameConstants.WORLD_SIZE.y, camera);
@@ -108,19 +104,19 @@ public class MainMenuScreen extends InputAdapter implements Screen {
         imgTextButtonStyle.up = skin.getDrawable("button");
         imgTextButtonStyle.down = skin.newDrawable("round-green");
         imgTextButtonStyle.imageUp = skin.newDrawable("options-white", Color.WHITE);
-        imgTextButtonStyle.font = assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
+        imgTextButtonStyle.font = game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
 
         ImageTextButton.ImageTextButtonStyle imgTextButtonStyle2 = new ImageTextButton.ImageTextButtonStyle();
         imgTextButtonStyle2.up = skin.getDrawable("button");
         imgTextButtonStyle2.down = skin.newDrawable("round-green");
         imgTextButtonStyle2.imageUp = skin.newDrawable("share-white", Color.WHITE);
-        imgTextButtonStyle2.font = assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
+        imgTextButtonStyle2.font = game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
 
         ImageTextButton.ImageTextButtonStyle imgTextButtonStyle3 = new ImageTextButton.ImageTextButtonStyle();
         imgTextButtonStyle3.up = skin.getDrawable("button");
         imgTextButtonStyle3.down = skin.newDrawable("round-green");
         imgTextButtonStyle3.imageUp = skin.newDrawable("about-white", Color.WHITE);
-        imgTextButtonStyle3.font = assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
+        imgTextButtonStyle3.font = game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
 
         //
         // Button Options
@@ -185,13 +181,13 @@ public class MainMenuScreen extends InputAdapter implements Screen {
 
         fontParameter.magFilter = Texture.TextureFilter.Linear;
 
-        Label.LabelStyle styleLbl = new Label.LabelStyle(assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class), Color.BLACK);
+        Label.LabelStyle styleLbl = new Label.LabelStyle(game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class), Color.BLACK);
         lblTitle = new Label("TicTacToe", styleLbl);
 
         fontParameter.size = (int)Math.ceil(24);
 
         fontGenerator.scaleForPixelHeight((int)Math.ceil(24));
-        styleLbl = new Label.LabelStyle(assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class), Color.BLACK);
+        styleLbl = new Label.LabelStyle(game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class), Color.BLACK);
         lblGameBoxAdvertising = new Label("Box for advertising", styleLbl);
 
 

@@ -6,14 +6,14 @@ filter: Linear,Linear
 repeat: none
 about-white
   rotate: false
-  xy: 2, 188
+  xy: 516, 188
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 back
   rotate: false
-  xy: 2, 1216
+  xy: 1030, 702
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
@@ -29,7 +29,7 @@ button
   index: -1
 button-pressed
   rotate: false
-  xy: 144, 144
+  xy: 1544, 1544
   size: 56, 42
   split: 18, 18, 0, 0
   pad: 13, 14, 3, 2
@@ -52,14 +52,14 @@ cross
   index: -1
 database
   rotate: false
-  xy: 1030, 188
+  xy: 516, 702
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 home
   rotate: false
-  xy: 516, 702
+  xy: 516, 1216
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
@@ -73,29 +73,43 @@ options-white
   index: -1
 pause-game
   rotate: false
-  xy: 2, 702
+  xy: 1030, 188
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 1030, 702
+  xy: 2, 188
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 restart-game
   rotate: false
-  xy: 516, 1216
+  xy: 2, 1216
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 share-white
   rotate: false
-  xy: 516, 188
+  xy: 2, 702
   size: 512, 512
   orig: 512, 512
+  offset: 0, 0
+  index: -1
+slider-fancy
+  rotate: false
+  xy: 1686, 1717
+  size: 261, 11
+  orig: 261, 11
+  offset: 0, 0
+  index: -1
+slider-fancy-knob
+  rotate: false
+  xy: 144, 175
+  size: 261, 11
+  orig: 261, 11
   offset: 0, 0
   index: -1

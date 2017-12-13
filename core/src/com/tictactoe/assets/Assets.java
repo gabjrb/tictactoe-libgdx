@@ -3,6 +3,7 @@ package com.tictactoe.assets;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
@@ -23,6 +24,8 @@ public class Assets {
         FreetypeFontLoader.FreeTypeFontLoaderParameter mySmallFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
         mySmallFont.fontFileName = "font/OpenSans-Regular.ttf";
         mySmallFont.fontParameters.size = 36;
+        mySmallFont.fontParameters.minFilter = Texture.TextureFilter.Linear;
+        mySmallFont.fontParameters.magFilter = Texture.TextureFilter.Linear;
         manager.load("font/OpenSans-Regular.ttf", BitmapFont.class, mySmallFont);
 
 //        FreetypeFontLoader.FreeTypeFontLoaderParameter myBigFont = new FreetypeFontLoader.FreeTypeFontLoaderParameter();

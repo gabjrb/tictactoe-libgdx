@@ -21,7 +21,8 @@
             "b": 1,
             "a": 1
         },
-        "green": { "r": 0, "g": 1, "b": 0, "a": 1 }
+        "green": { "r": 0, "g": 1, "b": 0, "a": 1 },
+        "window": { "r": 0.76862746, "g": 0.4509804, "b": 0, "a": 1 }
     },
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
         "default": {
@@ -39,6 +40,14 @@
     },
     "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
         "round-green": { "name": "button", "color": "green" },
-        "settings-white": { "name": "options-white", "color": "green" }
+        "settings-white": { "name": "options-white", "color": "green" },
+        "window-w" : { "name": "window" , "color": "window"}
+    },
+    "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
+        "default": {
+            "background": "window-w",
+            "titleFont": "default-font",
+            "titleFontColor": "black"
+        }
     }
 }

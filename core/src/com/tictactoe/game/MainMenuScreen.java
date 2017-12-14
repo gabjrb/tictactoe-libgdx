@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -55,6 +56,8 @@ public class MainMenuScreen extends InputAdapter implements Screen {
     private Camera camera;
     private Viewport viewport;
     private FreeTypeFontGenerator fontButtonGenerator;
+    private Label lblOptionsLanguage;
+    private Label closeOptionsLabel;
 
     public MainMenuScreen(TictactoeGame game) {
         this.game = game;
@@ -128,10 +131,30 @@ public class MainMenuScreen extends InputAdapter implements Screen {
 //        btnOptions.getStyle().down.tint(Color.WHITE);
         btnOptions.setColor(new Color(0,0.35f,1,1));
 
+        Label.LabelStyle styleLabelOptions = new Label.LabelStyle(game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class), Color.BLACK);
+        lblOptionsLanguage = new Label("Cambiar Idioma", styleLabelOptions);
+
+        closeOptionsLabel = new Label("Close", styleLabelOptions);
+
         btnOptions.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new TicTacToeScreen(game));
+//                game.setScreen(new TicTacToeScreen(game));
+                new Dialog("Test Dialog", skin)
+                {
+                    {
+                        this.getTitleTable().setDebug(true);
+                        this.getTitleTable().add(closeOptionsLabel);
+//                        this.getButtonTable().add(btnShare);
+//                        this.getButtonTable().row();
+                        this.getButtonTable().add(lblOptionsLanguage);
+                    }
+
+                    protected void result (Object object)
+                    {
+
+                    }
+                }.text("Options").show(stage).setResizable(true);
             }
         });
         //
@@ -210,14 +233,17 @@ public class MainMenuScreen extends InputAdapter implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1,1,1,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); viewport.apply();
-        stage.getViewport().apply(); stage.act(delta); stage.draw();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        viewport.apply();
+        stage.getViewport().apply();
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-        stage.getViewport().update(width, height,true);
+//        stage.getViewport().update(width, height,true);
     }
 
     @Override

@@ -6,21 +6,21 @@ filter: Linear,Linear
 repeat: none
 about-white
   rotate: false
-  xy: 516, 188
+  xy: 2, 1241
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 back
   rotate: false
-  xy: 1030, 702
+  xy: 2, 727
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 button
   rotate: false
-  xy: 2, 2
+  xy: 1544, 1569
   size: 56, 42
   split: 18, 19, 14, 14
   pad: 0, 0, 0, 0
@@ -29,7 +29,7 @@ button
   index: -1
 button-pressed
   rotate: false
-  xy: 1544, 1544
+  xy: 144, 156
   size: 56, 42
   split: 18, 18, 0, 0
   pad: 13, 14, 3, 2
@@ -38,78 +38,87 @@ button-pressed
   index: -1
 circle
   rotate: false
-  xy: 1544, 1588
+  xy: 1544, 1613
   size: 140, 140
   orig: 140, 140
   offset: 0, 0
   index: -1
 cross
   rotate: false
-  xy: 2, 46
+  xy: 2, 71
   size: 140, 140
   orig: 140, 140
   offset: 0, 0
   index: -1
 database
   rotate: false
-  xy: 516, 702
+  xy: 1030, 213
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 home
   rotate: false
-  xy: 516, 1216
+  xy: 1030, 1241
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 options-white
   rotate: false
-  xy: 1030, 1216
+  xy: 1030, 727
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 pause-game
   rotate: false
-  xy: 1030, 188
+  xy: 516, 1241
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 play
   rotate: false
-  xy: 2, 188
+  xy: 516, 213
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 restart-game
   rotate: false
-  xy: 2, 1216
+  xy: 2, 213
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 share-white
   rotate: false
-  xy: 2, 702
+  xy: 516, 727
   size: 512, 512
   orig: 512, 512
   offset: 0, 0
   index: -1
 slider-fancy
   rotate: false
-  xy: 1686, 1717
+  xy: 144, 200
   size: 261, 11
   orig: 261, 11
   offset: 0, 0
   index: -1
 slider-fancy-knob
   rotate: false
-  xy: 144, 175
+  xy: 1686, 1742
   size: 261, 11
   orig: 261, 11
+  offset: 0, 0
+  index: -1
+window
+  rotate: false
+  xy: 2, 2
+  size: 76, 67
+  split: 2, 2, 32, 2
+  pad: 2, 2, 34, 2
+  orig: 76, 67
   offset: 0, 0
   index: -1

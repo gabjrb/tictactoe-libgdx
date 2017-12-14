@@ -52,8 +52,13 @@ public class LoadingScreen extends BaseScreen {
         atlas = new TextureAtlas("ui/TicTacToe.atlas");
         skin = new Skin(Gdx.files.internal("ui/tictactoe-ui.json"), atlas);
 
+        skin.add("small-font", game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class), BitmapFont.class);
+        skin.load(Gdx.files.internal("ui/tictactoe-ui.json"));
+
         Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
+        labelStyle.font = skin.getFont("small-font");
+
+//        labelStyle.font = game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
         loading = new Label("Loading...", labelStyle);
 
         ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();

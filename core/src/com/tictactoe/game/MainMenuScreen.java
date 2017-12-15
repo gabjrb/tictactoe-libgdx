@@ -32,6 +32,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tictactoe.assets.Assets;
+import com.tictactoe.dialogs.OptionsDialog;
 
 import javax.swing.text.View;
 
@@ -139,22 +140,26 @@ public class MainMenuScreen extends InputAdapter implements Screen {
         btnOptions.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+
+                OptionsDialog optionsDialog = new OptionsDialog();
+                optionsDialog.show(stage);
+
 //                game.setScreen(new TicTacToeScreen(game));
-                new Dialog("Test Dialog", skin)
-                {
-                    {
-                        this.getTitleTable().setDebug(true);
-                        this.getTitleTable().add(closeOptionsLabel);
-//                        this.getButtonTable().add(btnShare);
-//                        this.getButtonTable().row();
-                        this.getButtonTable().add(lblOptionsLanguage);
-                    }
-
-                    protected void result (Object object)
-                    {
-
-                    }
-                }.text("Options").show(stage).setResizable(true);
+//                new Dialog("Test Dialog", skin)
+//                {
+//                    {
+//                        this.getTitleTable().setDebug(true);
+//                        this.getTitleTable().add(closeOptionsLabel);
+////                        this.getButtonTable().add(btnShare);
+////                        this.getButtonTable().row();
+//                        this.getButtonTable().add(lblOptionsLanguage);
+//                    }
+//
+//                    protected void result (Object object)
+//                    {
+//
+//                    }
+//                }.text("Options").show(stage).setResizable(true);
             }
         });
         //

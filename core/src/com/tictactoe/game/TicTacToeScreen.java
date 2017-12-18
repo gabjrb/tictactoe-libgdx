@@ -113,7 +113,7 @@ public class TicTacToeScreen extends InputAdapter implements Screen {
         board = new TicTacToeBoard();
         //SmartFontGenerator fontGen = new SmartFontGenerator();
 
-        player = new Player(board, Player.PlayerType.PLAYER_TYPE_X);
+        player = new Player(board, Player.PlayerType.PLAYER_TYPE_X, true);
         playerAI = new AIPlayer(board, Player.PlayerType.PLAYER_TYPE_O, new MinimaxStrategy());
 
 

@@ -4,6 +4,8 @@ package com.tictactoe.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -26,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -33,6 +36,9 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tictactoe.assets.Assets;
 import com.tictactoe.dialogs.OptionsDialog;
+import com.tictactoe.screens.GameSettingsScreen;
+
+import java.util.Locale;
 
 import javax.swing.text.View;
 
@@ -69,7 +75,9 @@ public class MainMenuScreen extends InputAdapter implements Screen {
 
         camera = new OrthographicCamera();
 
-        viewport = new ExtendViewport(GameConstants.WORLD_SIZE.x, GameConstants.WORLD_SIZE.y, camera);
+//        viewport = new ExtendViewport(1920, 1080, camera);
+        viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
+//        viewport = new ExtendViewport(GameConstants.WORLD_SIZE.x, GameConstants.WORLD_SIZE.y, camera);
 
         viewport.setScreenBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -162,25 +170,33 @@ public class MainMenuScreen extends InputAdapter implements Screen {
 //                }.text("Options").show(stage).setResizable(true);
             }
         });
-        //
-        // Button Share
-        //
-        btnShare = new ImageTextButton("Share", imgTextButtonStyle2);
-        btnShare.getImageCell().width(64);
-        btnShare.getImageCell().height(64);
-        btnShare.getLabelCell().width(200).align(Align.right);
-        btnShare.setColor(new Color(0,0.35f,1,1));
+
+
+//        FileHandle baseFileHandle = Gdx.files.internal("resources/messages");
+//        Locale locale = new Locale("es", "fr", "pt");
+//        I18NBundle myBundle = I18NBundle.createBundle(baseFileHandle);
+
+
+
+//        I18NBundle myBundle = game.manager.get("resources/messages", I18NBundle.class);
+
+//        String compartir = myBundle.get("Share");
+
+//        btnShare = new ImageTextButton("Share", imgTextButtonStyle2);
+        btnShare = new ImageTextButton("Share", skin);
+//        btnShare.getImageCell().width(64);
+//        btnShare.getImageCell().height(64);
+//        btnShare.getLabelCell().width(100).align(Align.right);
+//        btnShare.setColor(new Color(0,0.35f,1,1));
         btnShare.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new TicTacToeScreen(game));
+//                game.setScreen(new TicTacToeScreen(game));
             }
         });
-        //
-        // Button Share
-        //
+
+
         btnAbout = new ImageTextButton("About", imgTextButtonStyle3);
-//        btnAbout.getStyle().imageUp = skin.getDrawable("about-white");
         btnAbout.getImageCell().width(64);
         btnAbout.getImageCell().height(64);
         btnAbout.getLabelCell().width(200).align(Align.right);
@@ -188,7 +204,7 @@ public class MainMenuScreen extends InputAdapter implements Screen {
         btnAbout.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new TicTacToeScreen(game));
+                game.setScreen(new GameSettingsScreen(game, skin, atlas));
             }
         });
 
@@ -224,7 +240,7 @@ public class MainMenuScreen extends InputAdapter implements Screen {
         menuTable.row();
         menuTable.add(btnOptions).height(100).width(300).padBottom(30);
         menuTable.row();
-        menuTable.add(btnShare).height(100).width(300).padBottom(30);
+        menuTable.add(btnShare).padBottom(30);
         menuTable.row();
         menuTable.add(btnAbout).height(100).width(300);
 
@@ -248,7 +264,6 @@ public class MainMenuScreen extends InputAdapter implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height, true);
-//        stage.getViewport().update(width, height,true);
     }
 
     @Override

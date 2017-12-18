@@ -1,6 +1,9 @@
 package com.tictactoe.screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.tictactoe.game.TictactoeGame;
 
 /**
@@ -10,9 +13,16 @@ import com.tictactoe.game.TictactoeGame;
 public abstract class BaseScreen implements Screen {
 
     protected TictactoeGame game;
+    protected Skin skin;
+    protected TextureAtlas atlas;
 
     public BaseScreen(TictactoeGame game){
         this.game = game;
+    }
+    public BaseScreen(TictactoeGame game, Skin skin, TextureAtlas atlas){
+        this.game = game;
+        this.skin = skin;
+        this.atlas = atlas;
     }
 
     @Override
@@ -48,5 +58,17 @@ public abstract class BaseScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public Skin getSkin() {
+        return skin;
+    }
+
+    public TextureAtlas getAtlas() {
+        return atlas;
+    }
+
+    public TictactoeGame getGame() {
+        return game;
     }
 }

@@ -9,15 +9,17 @@ public class Player {
     String name;
     PlayerType playerType;
     TicTacToeBoard board;
+    Boolean haveToStart;
 
     public Player(String name, PlayerType playerType){
         this.name = name;
         this.playerType = playerType;
     }
 
-    public Player(TicTacToeBoard board, PlayerType type) {
+    public Player(TicTacToeBoard board, PlayerType type, Boolean haveToStart) {
         this.board = board;
         this.playerType = type;
+        this.haveToStart = haveToStart;
     }
 
     public enum PlayerType{
@@ -45,5 +47,9 @@ public class Player {
 
     public PlayerType getPlayerType() {
         return playerType;
+    }
+
+    public Boolean getHaveToStart() {
+        return haveToStart;
     }
 }

@@ -1,7 +1,7 @@
 {
   "com.badlogic.gdx.graphics.g2d.BitmapFont": {
     "default-font": {
-      "file": "Roboto.fnt"
+      "file": "Verdana.fnt"
     }
   },
   "com.badlogic.gdx.graphics.Color": {
@@ -111,9 +111,29 @@
   "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
     "default": {
       "font": "default-font",
-      "up": "round-green",
+	  "fontColor": "black",
       "down": "button-pressed",
       "imageUp": "options-small"
+    },
+	"back-button": {
+      "font": "default-font",
+	  "fontColor": "black",
+      "down": "button-pressed",
+      "imageUp": "back"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
+    "default": {
+      "imageUp": "cross-cell"
+    },
+	"restart": {
+      "imageUp": "restart"
+    },
+	"back": {
+      "imageUp": "back"
+    },
+	"options": {
+      "imageUp": "options"
     }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {

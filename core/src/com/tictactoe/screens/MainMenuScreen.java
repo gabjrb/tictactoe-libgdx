@@ -1,4 +1,4 @@
-package com.tictactoe.game;
+package com.tictactoe.screens;
 
 
 import com.badlogic.gdx.Gdx;
@@ -36,9 +36,13 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tictactoe.assets.Assets;
 import com.tictactoe.dialogs.OptionsDialog;
+import com.tictactoe.game.TictactoeGame;
 import com.tictactoe.screens.GameSettingsScreen;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.text.View;
 
@@ -49,22 +53,17 @@ import javax.swing.text.View;
 
 public class MainMenuScreen extends InputAdapter implements Screen {
     TictactoeGame game;
-    private Stage stage;
-    private TextureAtlas atlas;
     private Table rootTable;
     private Table menuTable;
-    private Table footerButtonsTable;
+    private Stage stage;
+    private TextureAtlas atlas;
     private Skin skin;
     private ImageTextButton btnOptions, btnShare, btnAbout;
     private ImageButton btnPlay;
     private Label lblTitle;
     private Label lblGameBoxAdvertising;
-    private FreeTypeFontGenerator fontGenerator;
     private Camera camera;
     private Viewport viewport;
-    private FreeTypeFontGenerator fontButtonGenerator;
-    private Label lblOptionsLanguage;
-    private Label closeOptionsLabel;
 
     public MainMenuScreen(TictactoeGame game) {
         this.game = game;
@@ -75,6 +74,8 @@ public class MainMenuScreen extends InputAdapter implements Screen {
 
         camera = new OrthographicCamera();
 
+        I18NBundle i18NBundle = game.getAssets().getManager().get("resources/messages", I18NBundle.class);
+
 //        viewport = new ExtendViewport(1920, 1080, camera);
         viewport = new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 //        viewport = new ExtendViewport(GameConstants.WORLD_SIZE.x, GameConstants.WORLD_SIZE.y, camera);
@@ -83,111 +84,46 @@ public class MainMenuScreen extends InputAdapter implements Screen {
 
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
-        atlas = new TextureAtlas("ui/TicTacToe.atlas");
-        skin = new Skin(Gdx.files.internal("ui/tictactoe-ui.json"), atlas);
+        atlas = game.getAssets().getManager().get("ui/TicTacToe.atlas", TextureAtlas.class);
+        skin = game.getAssets().getManager().get("ui/tictactoe-ui.json", Skin.class);
         rootTable = new Table();
         rootTable.setDebug(true);
         rootTable.setFillParent(true);
         rootTable.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(rootTable);
-
-        fontButtonGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/OpenSans-Semibold.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter fontButtonParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        fontButtonParameter.size = (int)Math.ceil(36);
-
-        fontButtonParameter.minFilter = Texture.TextureFilter.Linear;
-
-        fontButtonParameter.magFilter = Texture.TextureFilter.Linear;
-
-        fontButtonGenerator.scaleForPixelHeight((int)Math.ceil(36));
-
-//        BitmapFont font = fontButtonGenerator.generateFont(fontButtonParameter);
-
         //
         // Button PLay
         //
         btnPlay = new ImageButton(skin.getDrawable("play"));
         btnPlay.getImageCell().height(256);
         btnPlay.getImageCell().width(256);
-
-        ImageTextButton.ImageTextButtonStyle imgTextButtonStyle = new ImageTextButton.ImageTextButtonStyle();
-        imgTextButtonStyle.up = skin.getDrawable("button");
-        imgTextButtonStyle.down = skin.newDrawable("round-green");
-        imgTextButtonStyle.imageUp = skin.newDrawable("options-white", Color.WHITE);
-        imgTextButtonStyle.font = game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
-
-        ImageTextButton.ImageTextButtonStyle imgTextButtonStyle2 = new ImageTextButton.ImageTextButtonStyle();
-        imgTextButtonStyle2.up = skin.getDrawable("button");
-        imgTextButtonStyle2.down = skin.newDrawable("round-green");
-        imgTextButtonStyle2.imageUp = skin.newDrawable("share-white", Color.WHITE);
-        imgTextButtonStyle2.font = game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
-
-        ImageTextButton.ImageTextButtonStyle imgTextButtonStyle3 = new ImageTextButton.ImageTextButtonStyle();
-        imgTextButtonStyle3.up = skin.getDrawable("button");
-        imgTextButtonStyle3.down = skin.newDrawable("round-green");
-        imgTextButtonStyle3.imageUp = skin.newDrawable("about-white", Color.WHITE);
-        imgTextButtonStyle3.font = game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
-
+        btnPlay.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new GameSettingsScreen(game, skin, atlas));
+            }
+        });
         //
         // Button Options
         //
-        btnOptions = new ImageTextButton("Options", imgTextButtonStyle);
+        btnOptions = new ImageTextButton("Options", skin);
         btnOptions.getImageCell().width(64);
         btnOptions.getImageCell().height(64);
         btnOptions.getLabelCell().width(200).align(Align.right);
-//        btnOptions.getStyle().down.tint(Color.WHITE);
         btnOptions.setColor(new Color(0,0.35f,1,1));
-
-        Label.LabelStyle styleLabelOptions = new Label.LabelStyle(game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class), Color.BLACK);
-        lblOptionsLanguage = new Label("Cambiar Idioma", styleLabelOptions);
-
-        closeOptionsLabel = new Label("Close", styleLabelOptions);
-
         btnOptions.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
                 OptionsDialog optionsDialog = new OptionsDialog();
                 optionsDialog.show(stage);
-
-//                game.setScreen(new TicTacToeScreen(game));
-//                new Dialog("Test Dialog", skin)
-//                {
-//                    {
-//                        this.getTitleTable().setDebug(true);
-//                        this.getTitleTable().add(closeOptionsLabel);
-////                        this.getButtonTable().add(btnShare);
-////                        this.getButtonTable().row();
-//                        this.getButtonTable().add(lblOptionsLanguage);
-//                    }
-//
-//                    protected void result (Object object)
-//                    {
-//
-//                    }
-//                }.text("Options").show(stage).setResizable(true);
             }
         });
 
-
-//        FileHandle baseFileHandle = Gdx.files.internal("resources/messages");
-//        Locale locale = new Locale("es", "fr", "pt");
-//        I18NBundle myBundle = I18NBundle.createBundle(baseFileHandle);
-
-
-
-//        I18NBundle myBundle = game.manager.get("resources/messages", I18NBundle.class);
-
-//        String compartir = myBundle.get("Share");
-
-//        btnShare = new ImageTextButton("Share", imgTextButtonStyle2);
-        btnShare = new ImageTextButton("Share", skin);
-//        btnShare.getImageCell().width(64);
-//        btnShare.getImageCell().height(64);
-//        btnShare.getLabelCell().width(100).align(Align.right);
-//        btnShare.setColor(new Color(0,0.35f,1,1));
+        btnShare = new ImageTextButton(i18NBundle.get("Share"), skin);
+        btnShare.getImageCell().width(64);
+        btnShare.getImageCell().height(64);
+        btnShare.getLabelCell().width(200).align(Align.right);
+        btnShare.setColor(new Color(0,0.35f,1,1));
         btnShare.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -195,8 +131,7 @@ public class MainMenuScreen extends InputAdapter implements Screen {
             }
         });
 
-
-        btnAbout = new ImageTextButton("About", imgTextButtonStyle3);
+        btnAbout = new ImageTextButton(i18NBundle.get("About"), skin);
         btnAbout.getImageCell().width(64);
         btnAbout.getImageCell().height(64);
         btnAbout.getLabelCell().width(200).align(Align.right);
@@ -204,36 +139,13 @@ public class MainMenuScreen extends InputAdapter implements Screen {
         btnAbout.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameSettingsScreen(game, skin, atlas));
+//                game.setScreen(new GameSettingsScreen(game, skin, atlas));
             }
         });
 
         btnPlay.pad(15);
         btnOptions.pad(15);
         btnShare.pad(15);
-        btnAbout.pad(15);
-
-        fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("font/OpenSans-Bold.ttf"));
-
-        FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        fontParameter.size = (int)Math.ceil(96);
-
-        fontGenerator.scaleForPixelHeight((int)Math.ceil(96));
-
-        fontParameter.minFilter = Texture.TextureFilter.Linear;
-
-        fontParameter.magFilter = Texture.TextureFilter.Linear;
-
-        Label.LabelStyle styleLbl = new Label.LabelStyle(game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class), Color.BLACK);
-        lblTitle = new Label("TicTacToe", styleLbl);
-
-        fontParameter.size = (int)Math.ceil(24);
-
-        fontGenerator.scaleForPixelHeight((int)Math.ceil(24));
-        styleLbl = new Label.LabelStyle(game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class), Color.BLACK);
-        lblGameBoxAdvertising = new Label("Box for advertising", styleLbl);
-
 
         menuTable = new Table();
         menuTable.add(btnPlay).height(256).width(256).padBottom(45);
@@ -256,7 +168,6 @@ public class MainMenuScreen extends InputAdapter implements Screen {
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
-        stage.getViewport().apply();
         stage.act(delta);
         stage.draw();
     }
@@ -286,7 +197,5 @@ public class MainMenuScreen extends InputAdapter implements Screen {
         stage.dispose();
         atlas.dispose();
         skin.dispose();
-        fontGenerator.dispose();
-        fontButtonGenerator.dispose();
     }
 }

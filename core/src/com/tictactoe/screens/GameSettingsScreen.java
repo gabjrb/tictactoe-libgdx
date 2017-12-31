@@ -1,8 +1,6 @@
 package com.tictactoe.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
@@ -27,7 +24,6 @@ import com.tictactoe.game.GameConstants;
 import com.tictactoe.game.GameSettings;
 import com.tictactoe.game.Player;
 import com.tictactoe.game.TictactoeGame;
-import com.tictactoe.tween.SpriteAssessor;
 
 /**
  * Created by Gabriel on 8/12/2017.
@@ -149,7 +145,7 @@ public class GameSettingsScreen extends BaseScreen {
         btnSetAndGO.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                setParameters();
+                game.setScreen(new TicTacToeScreen(game, settings));
             }
         });
         //
@@ -172,7 +168,7 @@ public class GameSettingsScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(0,0,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
         stage.getViewport().apply();

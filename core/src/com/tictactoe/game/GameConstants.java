@@ -24,7 +24,7 @@ public class GameConstants {
 
     public static final Vector2 CELL_SIZE = new Vector2( BOARD_SIZE.x/BOARD_DIMENSION.x, BOARD_SIZE.y/BOARD_DIMENSION.y);
 
-    public static final int Elevation = 6;
+    public static final int Elevation = 1;
     public static final int HorizontalShift = 1;
 
 

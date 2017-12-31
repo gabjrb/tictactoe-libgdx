@@ -2,6 +2,7 @@ package com.tictactoe.dialogs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -10,8 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.tictactoe.game.GameOptions;
 
 
 /**
@@ -55,6 +58,13 @@ public class OptionsDialog {
         });
         this.dialog.getTitleTable().add(btnCloseWindows);
         chkSound = new CheckBox("Sound", skin);
+        chkSound.setChecked(GameOptions.getInstance().isMusicEnabled());
+        chkSound.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                GameOptions.getInstance().setMusicEnabled(chkSound.isChecked());
+            }
+        });
         chkFX = new CheckBox("FX", skin);
         chkAds = new CheckBox("ADS", skin);
         btnQuitGame = new TextButton("Quit", skin);

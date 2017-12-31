@@ -58,9 +58,22 @@ public class TicTacToeBoard {
         return nextBoard;
     }
 
-    public void render(float delta, SpriteBatch batch, TextureAtlas atlas)
-    {
 
+
+    public void render(float delta, SpriteBatch batch, TextureAtlas atlas) {
+//        for (ShapeData data : crosses) {
+//            sprites[(int) data.position.x][(int) data.position.y].setRegion(atlas.findRegion(data.player));
+//            sprites[(int) data.position.x][(int) data.position.y].setSize(cells[(int) data.position.x][(int) data.position.y].getWidth(), cells[(int) data.position.x][(int) data.position.y].getHeigth());
+//            sprites[(int) data.position.x][(int) data.position.y].setPosition(cells[(int) data.position.x][(int) data.position.y].getPosition().x, cells[(int) data.position.x][(int) data.position.y].getPosition().y);
+//            sprites[(int) data.position.x][(int) data.position.y].draw(batch);
+//        }
+//
+//        for (ShapeData data : circles) {
+//            sprites[(int) data.position.x][(int) data.position.y].setRegion(atlas.findRegion(data.player));
+//            sprites[(int) data.position.x][(int) data.position.y].setSize(cells[(int) data.position.x][(int) data.position.y].getWidth(), cells[(int) data.position.x][(int) data.position.y].getHeigth());
+//            sprites[(int) data.position.x][(int) data.position.y].setPosition(cells[(int) data.position.x][(int) data.position.y].getPosition().x, cells[(int) data.position.x][(int) data.position.y].getPosition().y);
+//            sprites[(int) data.position.x][(int) data.position.y].draw(batch);
+//        }
     }
 
     public List<Vector2> getEmptyCells(){

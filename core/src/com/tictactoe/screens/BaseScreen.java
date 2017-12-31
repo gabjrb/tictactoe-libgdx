@@ -1,5 +1,6 @@
 package com.tictactoe.screens;
 
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -10,7 +11,7 @@ import com.tictactoe.game.TictactoeGame;
  * Created by Gabriel on 12/12/2017.
  */
 
-public abstract class BaseScreen implements Screen {
+public abstract class BaseScreen extends InputAdapter implements Screen {
 
     protected TictactoeGame game;
     protected Skin skin;

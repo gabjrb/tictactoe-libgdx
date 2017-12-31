@@ -15,6 +15,8 @@ public class GameSettings {
     private GameMod gameMod;
     private Difficulty difficulty;
     private Boolean playedByRotation;
+    private Boolean playerOneHasToStart;
+    private Boolean playerTwoHasToStart;
 
     public GameSettings(){
         this.playerOneName = "You";
@@ -26,6 +28,8 @@ public class GameSettings {
         this.gameMod = GameMod.NORMAL;
         this.difficulty = Difficulty.MEDIUM;
         this.playedByRotation = false;
+        this.playerOneHasToStart = true;
+        this.playerTwoHasToStart = false;
     }
 
     public enum ModelType{
@@ -78,5 +82,13 @@ public class GameSettings {
 
     public ModelType getModelTypePlayerTwo() {
         return modelTypePlayerTwo;
+    }
+
+    public Boolean getPlayerOneHasToStart() {
+        return playerOneHasToStart;
+    }
+
+    public Boolean getPlayerTwoHasToStart() {
+        return playerTwoHasToStart;
     }
 }

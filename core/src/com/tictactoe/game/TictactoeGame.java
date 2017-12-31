@@ -7,12 +7,22 @@ import com.tictactoe.screens.SplashScreen;
 
 public class TictactoeGame extends Game {
 
-	public AssetManager manager = new AssetManager();
-	public Assets assets = new Assets();
+	private Assets assets;
+	private IActivityRequestHandler myRequestHandler;
+
+	public TictactoeGame(IActivityRequestHandler handler) {
+		myRequestHandler = handler;
+	}
 	
 	@Override
 	public void create()
 	{
-		setScreen(new SplashScreen(this));
+		this.assets = new Assets();
+		myRequestHandler.showAds(true);
+	    setScreen(new SplashScreen(this));
 	}
+
+    public Assets getAssets() {
+        return assets;
+    }
 }

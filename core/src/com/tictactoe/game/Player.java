@@ -11,14 +11,16 @@ public class Player {
     TicTacToeBoard board;
     Boolean haveToStart;
 
-    public Player(String name, PlayerType playerType){
+    public Player(String name, PlayerType playerType, Boolean haveToStart){
         this.name = name;
         this.playerType = playerType;
+        this.haveToStart = haveToStart;
     }
 
-    public Player(TicTacToeBoard board, PlayerType type, Boolean haveToStart) {
-        this.board = board;
+    public Player(String name, PlayerType type, TicTacToeBoard board, Boolean haveToStart) {
+        this.name = name;
         this.playerType = type;
+        this.board = board;
         this.haveToStart = haveToStart;
     }
 

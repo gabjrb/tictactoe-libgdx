@@ -10,8 +10,8 @@ public class AIPlayer extends Player {
 
     MinimaxStrategy strategy;
 
-    public AIPlayer(TicTacToeBoard board, PlayerType playerType, MinimaxStrategy strategy){
-        super(board,playerType, false);
+    public AIPlayer(String name, PlayerType type, TicTacToeBoard board, Boolean haveToStart, MinimaxStrategy strategy){
+        super(name, type, board, haveToStart);
         this.strategy = strategy;
     }
 

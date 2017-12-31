@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.tictactoe.game.MainMenuScreen;
 import com.tictactoe.game.TictactoeGame;
 
 /**
@@ -39,8 +38,8 @@ public class LoadingScreen extends BaseScreen {
     @Override
     public void show() {
 
-        game.assets.load();
-        game.assets.manager.finishLoading();
+        game.getAssets().load();
+        game.getAssets().getManager().finishLoading();
 
         stage = new Stage(new FitViewport(640, 360));
 
@@ -49,17 +48,10 @@ public class LoadingScreen extends BaseScreen {
         rootTable.setBounds(0,0,640,360);
         stage.addActor(rootTable);
 
-        atlas = new TextureAtlas("ui/TicTacToe.atlas");
-        skin = new Skin(Gdx.files.internal("ui/tictactoe-ui.json"), atlas);
+        atlas = game.getAssets().getManager().get("ui/TicTacToe.atlas", TextureAtlas.class);
+        skin = game.getAssets().getManager().get("ui/tictactoe-ui.json", Skin.class);
 
-        skin.add("small-font", game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class), BitmapFont.class);
-        skin.load(Gdx.files.internal("ui/tictactoe-ui.json"));
-
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = skin.getFont("small-font");
-
-//        labelStyle.font = game.assets.manager.get("font/OpenSans-Regular.ttf", BitmapFont.class);
-        loading = new Label("Loading...", labelStyle);
+        loading = new Label("Loading...", skin);
 
         ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
 
@@ -91,13 +83,13 @@ public class LoadingScreen extends BaseScreen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        progressBar.setValue(game.manager.getProgress());
+        progressBar.setValue(game.getAssets().getManager().getProgress());
 
         int progress = (int) (progressBar.getVisualValue() * 100) == 99 ? 100 : (int) (progressBar.getVisualValue() * 100);
 
         loading.setText("Loading... " + progress + "%");
 
-        if (game.manager.update() && progressBar.getVisualValue() == 1f) {
+        if (game.getAssets().getManager().update() && progressBar.getVisualValue() == 1f) {
             game.setScreen(new MainMenuScreen(game));
         }
 

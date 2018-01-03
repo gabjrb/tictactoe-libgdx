@@ -83,12 +83,17 @@ public class TicTacToeScreen extends BaseScreen {
             gamePlayInitializer();
         }
 
-        public void handleTouch(Vector2 v){
+        public Boolean handleTouch(Vector2 v){
+            if (board.gameOver())
+                return false;
+
             if(turn && board.getCellOrigin(v)){
                 if (settings.getModelTypePlayerOne() == GameSettings.ModelType.HUMAN
                         && settings.getModelTypePlayerTwo() == GameSettings.ModelType.COMPUTER){
-                    board.setCell(v, playerOne.getPlayerType().getBrand());
-                    board.setCell(((AIPlayer)playerTwo).makeAIMove(), playerTwo.getPlayerType().getBrand());
+                    if (!board.setCell(v, playerOne.getPlayerType().getBrand()))
+                        return false;
+                    if (!board.gameOver())
+                        board.setCell(((AIPlayer)playerTwo).makeAIMove(), playerTwo.getPlayerType().getBrand());
                     // Make delay
                 }
                 else if (settings.getModelTypePlayerOne() == GameSettings.ModelType.HUMAN
@@ -96,12 +101,15 @@ public class TicTacToeScreen extends BaseScreen {
                     board.setCell(v, playerOne.getPlayerType().getBrand());
                     turn = !turn;
                 }
+                return true;
             }
             else if (board.getCellOrigin(v)){
                 if (settings.getModelTypePlayerTwo() == GameSettings.ModelType.HUMAN
                         && settings.getModelTypePlayerOne() == GameSettings.ModelType.COMPUTER){
-                    board.setCell(v, playerTwo.getPlayerType().getBrand());
-                    board.setCell(((AIPlayer)playerOne).makeAIMove(), playerOne.getPlayerType().getBrand());
+                    if (!board.setCell(v, playerTwo.getPlayerType().getBrand()))
+                        return false;
+                    if (!board.gameOver())
+                        board.setCell(((AIPlayer)playerOne).makeAIMove(), playerOne.getPlayerType().getBrand());
                     // Make delay
                 }
                 else if (settings.getModelTypePlayerTwo() == GameSettings.ModelType.HUMAN
@@ -109,7 +117,9 @@ public class TicTacToeScreen extends BaseScreen {
                     board.setCell(v, playerTwo.getPlayerType().getBrand());
                     turn = !turn;
                 }
+                return true;
             }
+            return false;
         }
 
         public void gamePlayInitializer(){
@@ -151,7 +161,7 @@ public class TicTacToeScreen extends BaseScreen {
     }
 
     private void drawBoard(ShapeRenderer renderer){
-        renderer.setColor(Color.WHITE);
+        renderer.setColor(new Color(0.3372549f, 0.8f,0.44705883f,1));
         renderer.rectLine(GameConstants.CELL_SIZE.x + GameConstants.HorizontalShift,
                 0 + GameConstants.Elevation,
                 GameConstants.CELL_SIZE.x + GameConstants.HorizontalShift,
@@ -234,7 +244,7 @@ public class TicTacToeScreen extends BaseScreen {
         restartButton = new ImageButton(skin, "restart");
         optionsButton = new ImageButton(skin, "options");
         Pixmap pm1 = new Pixmap(1, 1, Pixmap.Format.RGB565);
-        pm1.setColor(Color.BLUE);
+        pm1.setColor(Color.GRAY);
         pm1.fill();
         boardHeader = new Table();
         boardHeader.add(backButton).width(160);

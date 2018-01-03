@@ -13,19 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
  */
 
 public class GameConstants {
-
-//    public static final Vector2 WORLD_SIZE = new Vector2(800f, 450f);
-//    public static final Vector2 WORLD_SIZE = new Vector2(1280f, 720f);
     public static final Vector2 WORLD_SIZE = new Vector2(640f, 360f);
-
     public static final Vector2 BOARD_SIZE = new Vector2(12,12);
-
     public static final Vector2 BOARD_DIMENSION = new Vector2(3,3);
-
-    public static final Vector2 CELL_SIZE = new Vector2( BOARD_SIZE.x/BOARD_DIMENSION.x, BOARD_SIZE.y/BOARD_DIMENSION.y);
-
     public static final int Elevation = 1;
     public static final int HorizontalShift = 1;
+    public static final Vector2 CELL_SIZE = new Vector2( BOARD_SIZE.x/BOARD_DIMENSION.x, BOARD_SIZE.y/BOARD_DIMENSION.y);
 
 
     public static final Vector2[][] WINNING_PATTERNS = new Vector2[][]{

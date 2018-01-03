@@ -6,10 +6,10 @@ package com.tictactoe.game;
 
 public class Player {
 
-    String name;
-    PlayerType playerType;
-    TicTacToeBoard board;
-    Boolean haveToStart;
+    private String name;
+    private PlayerType playerType;
+    private TicTacToeBoard board;
+    private Boolean haveToStart;
 
     public Player(String name, PlayerType playerType, Boolean haveToStart){
         this.name = name;
@@ -53,5 +53,13 @@ public class Player {
 
     public Boolean getHaveToStart() {
         return haveToStart;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public TicTacToeBoard getBoard() {
+        return board;
     }
 }

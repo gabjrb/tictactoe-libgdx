@@ -44,7 +44,7 @@ public class MinimaxStrategy {
                 Results result = new Results(miniMax(nextBoard, depth -1, alpha, beta, playerType.getOpponent()));
                 if (result.score > bestScore) {
                     bestScore = result.score;
-                    bestPosition = new TicTacToeCell(v).position;
+                    bestPosition = new TicTacToeCell(v).getPosition();
                 }
                 alpha = Math.max(alpha, result.score);
                 if (beta <= alpha) {
@@ -54,7 +54,7 @@ public class MinimaxStrategy {
                 Results result = new Results(miniMax(nextBoard, depth-1, alpha, beta, playerType.getOpponent()));
                 if (result.score < bestScore) {
                     bestScore = result.score;
-                    bestPosition = new TicTacToeCell(v).position;
+                    bestPosition = new TicTacToeCell(v).getPosition();
                 }
                 beta = Math.min(beta, result.score);
                 if (beta <= alpha) {

@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.tictactoe.game.GameSettings;
 import com.tictactoe.game.TictactoeGame;
 
 /**
@@ -48,8 +49,11 @@ public class LoadingScreen extends BaseScreen {
         rootTable.setBounds(0,0,640,360);
         stage.addActor(rootTable);
 
-        atlas = game.getAssets().getManager().get("ui/TicTacToe.atlas", TextureAtlas.class);
-        skin = game.getAssets().getManager().get("ui/tictactoe-ui.json", Skin.class);
+//        atlas = game.getAssets().getManager().get("ui/TicTacToe.atlas", TextureAtlas.class);
+//        skin = game.getAssets().getManager().get("ui/tictactoe-ui.json", Skin.class);
+
+        atlas = game.getAssets().getManager().get("ui/tictactoe-game-ui.atlas", TextureAtlas.class);
+        skin = game.getAssets().getManager().get("ui/tictactoe-game-ui.json", Skin.class);
 
         loading = new Label("Loading...", skin);
 
@@ -90,7 +94,8 @@ public class LoadingScreen extends BaseScreen {
         loading.setText("Loading... " + progress + "%");
 
         if (game.getAssets().getManager().update() && progressBar.getVisualValue() == 1f) {
-            game.setScreen(new MainMenuScreen(game));
+//            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new TicTacToeScreen(game, new GameSettings()));
         }
 
         stage.act();

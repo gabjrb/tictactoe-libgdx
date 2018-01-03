@@ -16,7 +16,7 @@ public class AIPlayer extends Player {
     }
 
     public Vector2 makeAIMove(){
-        Vector2 bestPosition = strategy.BestMove(board,this);
+        Vector2 bestPosition = strategy.BestMove(getBoard(),this);
         return  bestPosition;
     }
 }

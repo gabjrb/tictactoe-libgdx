@@ -1,0 +1,155 @@
+{
+  "com.badlogic.gdx.graphics.g2d.BitmapFont": {
+    "default-font": {
+      "file": "font/verdana-medium.fnt"
+    },
+    "big-font": {
+      "file": "font/verdana-big.fnt"
+    },
+    "small-font": {
+      "file": "font/verdana-small.fnt"
+    }
+  },
+  "com.badlogic.gdx.graphics.Color": {
+    "black": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+    },
+    "gray": {
+      "r": 0.7466668,
+      "g": 0.7466668,
+      "b": 0.7466668,
+      "a": 1
+    },
+    "white": {
+      "r": 1,
+      "g": 1,
+      "b": 1,
+      "a": 1
+    },
+    "color": {
+      "r": 0.3372549,
+      "g": 0.8,
+      "b": 0.44705883,
+      "a": 1
+    },
+    "pressed": {
+      "r": 0.2529412,
+      "g": 0.6,
+      "b": 0.33313715,
+      "a": 1
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+    "button-c": {
+      "name": "button",
+      "color": "color"
+    },
+    "button-p": {
+      "name": "button",
+      "color": "pressed"
+    },
+    "back-c": {
+      "name": "back-ico",
+      "color": "color"
+    },
+    "back-p": {
+      "name": "back-ico",
+      "color": "pressed"
+    },
+    "restart-c": {
+      "name": "restart-ico",
+      "color": "color"
+    },
+    "restart-p": {
+      "name": "restart-ico",
+      "color": "pressed"
+    },
+    "options-c": {
+      "name": "options-ico",
+      "color": "color"
+    },
+    "options-p": {
+      "name": "options-ico",
+      "color": "pressed"
+    },
+    "cross-c": {
+      "name": "cross-shape",
+      "color": "color"
+    },
+    "circle-c": {
+      "name": "circle-shape",
+      "color": "color"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
+    "default": {
+      "font": "default-font",
+      "fontColor": "white",
+      "downFontColor": "white",
+      "up": "button-c",
+      "down": "button-p"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
+    "default": {
+      "font": "default-font",
+      "fontColor": "white",
+      "downFontColor": "white",
+      "up": "button-c",
+      "down": "button-p"
+    },
+    "back-button": {
+      "font": "default-font",
+      "fontColor": "color",
+      "downFontColor": "pressed",
+      "imageUp": "back-c",
+      "imageDown": "back-p"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle": {
+    "default": {
+      "up": "button-c",
+      "down": "button-p"
+    },
+    "restart": {
+      "imageUp": "restart-c",
+      "imageDown": "restart-p"
+    },
+    "back": {
+      "imageUp": "back-c",
+      "imageDown": "back-p"
+    },
+    "options": {
+      "imageUp": "options-c",
+      "imageDown": "options-p"
+    },
+    "player-cross": {
+      "imageUp": "cross-c"
+    },
+    "player-circle": {
+      "imageUp": "circle-c"
+    }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {
+    "default": {
+      "font": "default-font",
+      "fontColor": "color"
+    },
+    "big": {
+      "font": "big-font",
+      "fontColor": "color"
+    },
+    "small": {
+      "font": "small-font",
+      "fontColor": "color"
+    },
+    "player-name": {
+      "font": "small-font",
+      "fontColor": "white",
+      "background" : "button-c"
+    }
+  }
+}

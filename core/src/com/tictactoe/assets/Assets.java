@@ -31,9 +31,9 @@ public class Assets {
     }
 
     public void load(){
-        this.manager.load("ui/TicTacToe.atlas", TextureAtlas.class);
-        this.manager.load("ui/tictactoe-ui.json", Skin.class,
-                new SkinLoader.SkinParameter("ui/TicTacToe.atlas"));
+        this.manager.load("ui/tictactoe-game-ui.atlas", TextureAtlas.class);
+        this.manager.load("ui/tictactoe-game-ui.json", Skin.class,
+                new SkinLoader.SkinParameter("ui/tictactoe-game-ui.atlas"));
         this.manager.load("resources/messages", I18NBundle.class, new I18NBundleLoader.I18NBundleParameter(Locale.ROOT));
     }
 

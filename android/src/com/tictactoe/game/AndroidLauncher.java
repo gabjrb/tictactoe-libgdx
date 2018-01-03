@@ -13,32 +13,33 @@ import com.google.android.gms.ads.AdView;
 public class AndroidLauncher extends AndroidApplication implements IActivityRequestHandler {
 
     private static final String BANNER_AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111";
-
-    protected AdView adView;
-
     private final int SHOW_ADS = 1;
     private final int HIDE_ADS = 0;
+    protected Handler handler;
+    protected AdView adView;
 
-    protected Handler handler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg) {
-            switch(msg.what) {
-                case SHOW_ADS:
-                {
-                    adView.setVisibility(View.VISIBLE);
-                    break;
-                }
-                case HIDE_ADS:
-                {
-                    adView.setVisibility(View.GONE);
-                    break;
+    public AndroidLauncher() {
+        handler = new Handler()
+        {
+            @Override
+            public void handleMessage(Message msg) {
+                switch(msg.what) {
+                    case SHOW_ADS:
+                    {
+                        adView.setVisibility(View.VISIBLE);
+                        break;
+                    }
+                    case HIDE_ADS:
+                    {
+                        adView.setVisibility(View.GONE);
+                        break;
+                    }
                 }
             }
-        }
-    };
+        };
+    }
 
-	@Override
+    @Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -59,6 +60,7 @@ public class AndroidLauncher extends AndroidApplication implements IActivityRequ
         AdRequest.Builder builder = new AdRequest.Builder();
         AdRequest ad = builder.addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
         adView.loadAd(ad);
+        showAds(false);
 
         // Add the LibGdx view
         layout.addView(gameView);

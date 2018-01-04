@@ -70,11 +70,6 @@ public class TicTacToeBoard {
         return emptyCells;
     }
 
-    public void handleTouch(Vector2 position, Player.PlayerType playerType)
-    {
-
-    }
-
     public boolean setCell(Vector2 position, TicTacToeCell.CellBrand brand) {
         if (cells[(int)position.x][(int)position.y].getCellBrand() == TicTacToeCell.CellBrand.NOTHING) {
             cells[(int)position.x][(int)position.y].setCellBrand(brand);
@@ -100,22 +95,6 @@ public class TicTacToeBoard {
         return false;
     }
 
-//    public static Vector2 getCellOriginWorld(Vector2 v){
-//        for (int i = 0; i < 3; i++) {
-//            for (int j = 0; j < 3; j++) {
-//                if (v.x >= GameConstants.HorizontalShift + (i * GameConstants.CELL_SIZE.x) &&
-//                        v.x <= (GameConstants.HorizontalShift + GameConstants.CELL_SIZE.x + (i * GameConstants.CELL_SIZE.x)) &&
-//                        v.y >= GameConstants.Elevation + (j * GameConstants.CELL_SIZE.y) &&
-//                        v.y <= (GameConstants.Elevation + GameConstants.CELL_SIZE.y + (j * GameConstants.CELL_SIZE.y))) {
-//
-//                    return  new Vector2(GameConstants.HorizontalShift + (i * GameConstants.CELL_SIZE.x),
-//                            GameConstants.Elevation + (j * GameConstants.CELL_SIZE.y));
-//                }
-//            }
-//        }
-//        return new Vector2(0,0);
-//    }
-
     public GameResults getResults(){
         GameResults results = new GameResults();
         for (Vector2[] pattern:
@@ -127,6 +106,8 @@ public class TicTacToeBoard {
             if (cells[(int)pattern[0].x][(int)pattern[0].y].getCellBrand() == cells[(int)pattern[1].x][(int)pattern[1].y].getCellBrand() &&
                     cells[(int)pattern[1].x][(int)pattern[1].y].getCellBrand() == cells[(int)pattern[2].x][(int)pattern[2].y].getCellBrand()) {
                 results.setHasWinner(true);
+                results.setWinner(Player.PlayerType.PLAYER_TYPE_O.getBrand() == cells[(int)pattern[0].x][(int)pattern[0].y].getCellBrand() ?
+                        Player.PlayerType.PLAYER_TYPE_O : Player.PlayerType.PLAYER_TYPE_X);
                 break;
             }
         }

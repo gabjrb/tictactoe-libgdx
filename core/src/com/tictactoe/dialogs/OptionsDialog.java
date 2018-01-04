@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 import com.tictactoe.game.GameOptions;
 
 
@@ -23,7 +22,7 @@ import com.tictactoe.game.GameOptions;
 
 public class OptionsDialog {
 
-    com.badlogic.gdx.scenes.scene2d.ui.Dialog dialog;
+    Dialog dialog;
     TextureAtlas atlas;
     Skin skin;
     CheckBox chkSound;

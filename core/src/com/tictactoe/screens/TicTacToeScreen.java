@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -29,7 +30,9 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.tictactoe.dialogs.EndGameDialog;
 import com.tictactoe.game.AIPlayer;
+import com.tictactoe.game.EndGameDialogCallback;
 import com.tictactoe.game.GameConstants;
 import com.tictactoe.game.GameSettings;
 import com.tictactoe.game.MinimaxStrategy;
@@ -76,10 +79,16 @@ public class TicTacToeScreen extends BaseScreen {
         private Player playerOne;
         private Player playerTwo;
         private Boolean turn;
+        private String winner;
+        private Integer playerOneScore;
+        private Integer playerTwoScore;
         private GameSettings settings;
+        private Boolean openDialog;
 
         public gameHandler(GameSettings settings){
             this.settings = settings;
+            this.playerOneScore = 0;
+            this.playerTwoScore = 0;
             gamePlayInitializer();
         }
 
@@ -125,6 +134,7 @@ public class TicTacToeScreen extends BaseScreen {
         public void gamePlayInitializer(){
             this.board = new TicTacToeBoard();
             this.turn = settings.getPlayerOneHasToStart();
+            this.openDialog = true;
             switch (settings.getModelTypePlayerOne()) {
                 case HUMAN:
                     playerOne = new Player(settings.getPlayerOneName(), settings.getPlayerTypeOne(), board, settings.getPlayerOneHasToStart());
@@ -157,6 +167,52 @@ public class TicTacToeScreen extends BaseScreen {
 
         public Player getPlayerTwo() {
             return playerTwo;
+        }
+
+        public Boolean hasWinner(){
+            if (board.getResults().getWinner() == Player.PlayerType.PLAYER_TYPE_X){
+                if (playerOne.getPlayerType() == Player.PlayerType.PLAYER_TYPE_X){
+                    winner = playerOne.getName();
+                    playerOneScore +=1;
+                }
+                else{
+                    winner = playerTwo.getName();
+                    playerTwoScore +=1;
+                }
+                return true;
+            }
+            else if(board.getResults().getWinner() == Player.PlayerType.PLAYER_TYPE_O){
+                if (playerOne.getPlayerType() == Player.PlayerType.PLAYER_TYPE_O){
+                    winner = playerOne.getName();
+                    playerOneScore +=1;
+                }
+                else{
+                    winner = playerTwo.getName();
+                    playerTwoScore +=1;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        public String getWinnerName(){
+            return winner;
+        }
+
+        public Integer getScorePlayerOne(){
+            return playerOneScore;
+        }
+
+        public Integer getScorePlayerTwo(){
+            return playerTwoScore;
+        }
+
+        public Boolean getOpenDialog() {
+            return openDialog;
+        }
+
+        public void setOpenDialog(Boolean openDialog) {
+            this.openDialog = openDialog;
         }
     }
 
@@ -263,7 +319,7 @@ public class TicTacToeScreen extends BaseScreen {
         playerTwoGroup.addActor(new ImageButton(skin, (gamePlayHandler.getPlayerTwo().getPlayerType() ==
                 Player.PlayerType.PLAYER_TYPE_O) ? "player-circle" : "player-cross").padBottom(10));
         playerTwoGroup.addActor(new Label(gamePlayHandler.getPlayerTwo().getName(), skin, "player-name"));
-        gameScore = new Label("0:0", skin, "big");
+        gameScore = new Label("0 : 0", skin, "big");
         gameScore.setAlignment(Align.center);
         boardScore = new Table();
         boardScore.add(playerOneGroup).width(240);
@@ -290,10 +346,6 @@ public class TicTacToeScreen extends BaseScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        screenViewport.apply();
-        stage.getViewport().apply();
-        stage.act(delta);
-        stage.draw();
         viewport.apply();
         renderer.setProjectionMatrix(cameraGame.combined);
         renderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -304,11 +356,27 @@ public class TicTacToeScreen extends BaseScreen {
         spriteBatch.begin();
         renderPieces(spriteBatch, atlas);
         spriteBatch.end();
+        screenViewport.apply();
+        stage.getViewport().apply();
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         gamePlayHandler.handleTouch(viewport.unproject(new Vector2(screenX, screenY)));
+        if (gamePlayHandler.getBoard().gameOver() && gamePlayHandler.getOpenDialog()){
+            EndGameDialog endGameDialog = new EndGameDialog(this.game, gamePlayHandler.hasWinner(),
+                    gamePlayHandler.getWinnerName());
+            endGameDialog.showDialog(this.stage, new EndGameDialogCallback() {
+                @Override
+                public void restartGame() {
+                    gamePlayHandler.gamePlayInitializer();
+                }
+            });
+            gamePlayHandler.setOpenDialog(false);
+            gameScore.setText(gamePlayHandler.getScorePlayerOne() + " : " + gamePlayHandler.getScorePlayerTwo());
+        }
         return true;
     }
 

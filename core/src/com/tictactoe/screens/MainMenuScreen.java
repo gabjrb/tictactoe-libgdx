@@ -100,7 +100,7 @@ public class MainMenuScreen extends InputAdapter implements Screen {
         btnPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameSettingsScreen(game, skin, atlas));
+//                game.setScreen(new GameSettingsScreen(game, skin, atlas));
             }
         });
         //

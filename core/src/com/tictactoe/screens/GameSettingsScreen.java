@@ -2,14 +2,19 @@ package com.tictactoe.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
@@ -18,6 +23,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tictactoe.game.GameConstants;
@@ -33,8 +41,11 @@ public class GameSettingsScreen extends BaseScreen {
 
     private Skin skin;
     private TextureAtlas atlas;
+    private I18NBundle i18NBundle;
     private Stage stage;
     private Table rootTable;
+    private Table inner;
+    private Table settingsHeader;
     private Table playerDefinitionTable;
     private Table playerModelTable;
     private Table gameModesTable;
@@ -47,6 +58,8 @@ public class GameSettingsScreen extends BaseScreen {
     private Sprite circleShape;
     private Sprite crossShape;
     private SpriteBatch batch;
+    private ImageTextButton backButton;
+    private ImageButton optionsButton;
     private ImageTextButton imgBtnshapeInverter;
     private CheckBox chkPlayerOneType;
     private CheckBox chkPlayerTwoType;
@@ -55,35 +68,57 @@ public class GameSettingsScreen extends BaseScreen {
     SelectBox<Player.PlayerType> cboWhoStarts;
     private CheckBox chkPlayedByRotation;
     private TextButton btnSetAndGO;
+    private Label screenNameLabel;
 
     public GameSettingsScreen(TictactoeGame game){
         super(game);
-    }
-    public GameSettingsScreen(TictactoeGame game, Skin skin, TextureAtlas atlas){
-        super(game, skin, atlas);
-        this.skin = getSkin();
-        this.atlas = getAtlas();
         this.settings = new GameSettings();
     }
 
     @Override
     public void show() {
         //
-        // World
+        // Screen configuration
         //
+        game.getAdsRequestHandler().showAds(true);
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(GameConstants.WORLD_SIZE.x, GameConstants.WORLD_SIZE.y, camera);
         viewport.setScreenBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
         //
-        //rootTable
+        // Game styles-resources
+        //
+        atlas = game.getAssets().getManager().get("ui/tictactoe-game-ui.atlas", TextureAtlas.class);
+        skin = game.getAssets().getManager().get("ui/tictactoe-game-ui.json", Skin.class);
+        i18NBundle = game.getAssets().getManager().get("resources/messages", I18NBundle.class);
+        //
+        // Game World
         //
         rootTable = new Table();
         rootTable.setDebug(true);
         rootTable.setFillParent(true);
-        rootTable.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(rootTable);
+        //
+        // Settings UI Header
+        //
+        backButton = new ImageTextButton(i18NBundle.get("GoBack"), skin, "back-button");
+        optionsButton = new ImageButton(skin, "options");
+        optionsButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y){
+                //Handle options...
+            }
+        });
+        Pixmap pm1 = new Pixmap(1, 1, Pixmap.Format.RGB565);
+        pm1.setColor(Color.GRAY);
+        pm1.fill();
+        screenNameLabel = new Label("GAME SETTINGS", skin, "screen-name");
+        screenNameLabel.setAlignment(Align.center);
+        settingsHeader = new Table();
+        settingsHeader.add(backButton).width(160);
+        settingsHeader.add(screenNameLabel).width(380);
+        settingsHeader.add(optionsButton).width(100);
+        settingsHeader.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm1))));
         //
         // Player definition
         //
@@ -149,17 +184,22 @@ public class GameSettingsScreen extends BaseScreen {
             }
         });
         //
-        // rootTable
+        // Game World
         //
-        rootTable.add(playerDefinitionTable);
-        rootTable.row();
-        rootTable.add(playerModelTable);
-        rootTable.row();
-        rootTable.add(gameModesTable);
-        rootTable.row();
-        rootTable.add(startingDefinition);
-        rootTable.row();
-        rootTable.add(btnSetAndGO);
+        float myscreenHeight = viewport.getWorldHeight()/4;
+        inner = new Table();
+        inner.add(settingsHeader).height(myscreenHeight - 130.0f);
+        inner.row();
+        inner.add(playerDefinitionTable);
+        inner.row();
+        inner.add(playerModelTable);
+        inner.row();
+        inner.add(gameModesTable);
+        inner.row();
+        inner.add(startingDefinition);
+        inner.row();
+        inner.add(btnSetAndGO);
+        rootTable.add(inner).expand().top();
     }
 
     private void setParameters(){
@@ -168,7 +208,7 @@ public class GameSettingsScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,1,1);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         viewport.apply();
         stage.getViewport().apply();
@@ -198,6 +238,7 @@ public class GameSettingsScreen extends BaseScreen {
 
     @Override
     public void dispose() {
+        stage.dispose();
         skin.dispose();
         atlas.dispose();
     }

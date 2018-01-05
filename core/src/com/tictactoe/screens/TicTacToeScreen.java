@@ -14,6 +14,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -23,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -298,6 +304,11 @@ public class TicTacToeScreen extends BaseScreen {
         //
         backButton = new ImageTextButton(i18NBundle.get("GoBack"), skin, "back-button");
         restartButton = new ImageButton(skin, "restart");
+        restartButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y){
+                gamePlayHandler.gamePlayInitializer();
+            }
+        });
         optionsButton = new ImageButton(skin, "options");
         Pixmap pm1 = new Pixmap(1, 1, Pixmap.Format.RGB565);
         pm1.setColor(Color.GRAY);

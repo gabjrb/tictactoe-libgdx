@@ -94,8 +94,7 @@ public class LoadingScreen extends BaseScreen {
         loading.setText("Loading... " + progress + "%");
 
         if (game.getAssets().getManager().update() && progressBar.getVisualValue() == 1f) {
-//            game.setScreen(new MainMenuScreen(game));
-            game.setScreen(new TicTacToeScreen(game, new GameSettings()));
+            game.setScreen(new GameSettingsScreen(game));
         }
 
         stage.act();

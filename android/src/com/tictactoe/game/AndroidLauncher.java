@@ -53,7 +53,7 @@ public class AndroidLauncher extends AndroidApplication implements IActivityRequ
 
         // Create and setup the AdMob view
         adView = new AdView(this);
-        adView.setBackgroundColor(0xff000000);
+//        adView.setBackgroundColor(0xff000000);
         adView.setAdSize(com.google.android.gms.ads.AdSize.BANNER);
         adView.setAdUnitId(BANNER_AD_UNIT_ID);
 

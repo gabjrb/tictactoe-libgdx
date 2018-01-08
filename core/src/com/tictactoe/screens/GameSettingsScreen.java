@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -47,7 +48,6 @@ public class GameSettingsScreen extends BaseScreen {
     private Table inner;
     private Table settingsHeader;
     private Table playerDefinitionTable;
-    private Table playerModelTable;
     private Table gameModesTable;
     private Table startingDefinition;
     private Camera camera;
@@ -60,19 +60,23 @@ public class GameSettingsScreen extends BaseScreen {
     private SpriteBatch batch;
     private ImageTextButton backButton;
     private ImageButton optionsButton;
-    private ImageTextButton imgBtnshapeInverter;
-    private CheckBox chkPlayerOneType;
-    private CheckBox chkPlayerTwoType;
+    private SelectBox<GameSettings.ModelType> cboTypePlayerOne;
+    private SelectBox<GameSettings.ModelType> cboTypePlayerTwo;
+    private SelectBox<Player.PlayerType> cboShapePlayerOne;
+    SelectBox<Player.PlayerType> cboShapePlayerTwo;
     SelectBox<GameSettings.GameMod> cboGameMod;
     SelectBox<GameSettings.Difficulty> cboDifficulty;
     SelectBox<Player.PlayerType> cboWhoStarts;
     private CheckBox chkPlayedByRotation;
     private TextButton btnSetAndGO;
     private Label screenNameLabel;
+    private HorizontalGroup shapeGroupPlayerOne;
+    private HorizontalGroup shapeGroupPlayerTwo;
+    private HorizontalGroup typeGroupPlayerOne;
+    private HorizontalGroup typeGroupPlayerTwo;
 
     public GameSettingsScreen(TictactoeGame game){
         super(game);
-        this.settings = new GameSettings();
     }
 
     @Override
@@ -93,10 +97,14 @@ public class GameSettingsScreen extends BaseScreen {
         skin = game.getAssets().getManager().get("ui/tictactoe-game-ui.json", Skin.class);
         i18NBundle = game.getAssets().getManager().get("resources/messages", I18NBundle.class);
         //
+        // Settings
+        //
+        this.settings = new GameSettings(i18NBundle);
+        //
         // Game World
         //
         rootTable = new Table();
-        rootTable.setDebug(true);
+//        rootTable.setDebug(true);
         rootTable.setFillParent(true);
         stage.addActor(rootTable);
         //
@@ -112,7 +120,7 @@ public class GameSettingsScreen extends BaseScreen {
         Pixmap pm1 = new Pixmap(1, 1, Pixmap.Format.RGB565);
         pm1.setColor(Color.GRAY);
         pm1.fill();
-        screenNameLabel = new Label("GAME SETTINGS", skin, "screen-name");
+        screenNameLabel = new Label(i18NBundle.get("GameSettingsScreenName"), skin, "screen-name");
         screenNameLabel.setAlignment(Align.center);
         settingsHeader = new Table();
         settingsHeader.add(backButton).width(160);
@@ -124,29 +132,45 @@ public class GameSettingsScreen extends BaseScreen {
         //
         txtplayerOneName = new TextField(settings.getPlayerOneName(),skin);
         txtplayerTwoName = new TextField(settings.getPlayerTwoName(),skin);
-        imgBtnshapeInverter = new ImageTextButton("Shape", skin);
+        cboShapePlayerOne = new SelectBox<Player.PlayerType>(skin);
+        cboShapePlayerOne.setItems(new Player.PlayerType[] {Player.PlayerType.PLAYER_TYPE_X, Player.PlayerType.PLAYER_TYPE_O});
+        cboShapePlayerTwo = new SelectBox<Player.PlayerType>(skin);
+        cboShapePlayerTwo.setItems(new Player.PlayerType[] {Player.PlayerType.PLAYER_TYPE_X, Player.PlayerType.PLAYER_TYPE_O});
+        cboTypePlayerOne = new SelectBox<GameSettings.ModelType>(skin);
+        cboTypePlayerOne.setItems(new GameSettings.ModelType[] {GameSettings.ModelType.HUMAN, GameSettings.ModelType.COMPUTER});
+        cboTypePlayerTwo = new SelectBox<GameSettings.ModelType>(skin);
+        cboTypePlayerTwo.setItems(new GameSettings.ModelType[] {GameSettings.ModelType.HUMAN, GameSettings.ModelType.COMPUTER});
+
+        shapeGroupPlayerOne = new HorizontalGroup();
+        shapeGroupPlayerOne.addActor(new Label("Shape", skin));
+        shapeGroupPlayerOne.addActor(cboShapePlayerOne);
+        shapeGroupPlayerTwo = new HorizontalGroup();
+        shapeGroupPlayerTwo.addActor(new Label("Shape", skin));
+        shapeGroupPlayerTwo.addActor(cboShapePlayerTwo);
+
+        typeGroupPlayerOne = new HorizontalGroup();
+        typeGroupPlayerOne.addActor(new Label("Type", skin));
+        typeGroupPlayerOne.addActor(cboTypePlayerOne);
+
+        typeGroupPlayerTwo = new HorizontalGroup();
+        typeGroupPlayerTwo.addActor(new Label("Type", skin));
+        typeGroupPlayerTwo.addActor(cboTypePlayerTwo);
+
         playerDefinitionTable = new Table();
-        playerDefinitionTable.add(new Label("Player name", skin));
-        playerDefinitionTable.add(imgBtnshapeInverter);
-        playerDefinitionTable.row();
+//        playerDefinitionTable.setDebug(true);
+        playerDefinitionTable.add(new Label("1. Player", skin));
         playerDefinitionTable.add(txtplayerOneName);
-        // Shape of player here...
+        playerDefinitionTable.add(shapeGroupPlayerOne);
+        playerDefinitionTable.add(typeGroupPlayerOne);
+
         playerDefinitionTable.row();
+        playerDefinitionTable.add().height(40);
+        playerDefinitionTable.row();
+
+        playerDefinitionTable.add(new Label("2. Player", skin));
         playerDefinitionTable.add(txtplayerTwoName);
-        // Shape of player here...
-        //
-        // Model definition
-        //
-        chkPlayerOneType = new CheckBox(null, skin);
-        chkPlayerOneType.setChecked(settings.getModelTypePlayerOne() == GameSettings.ModelType.HUMAN);
-        chkPlayerTwoType = new CheckBox(null, skin);
-        chkPlayerTwoType.setChecked(settings.getModelTypePlayerOne() != GameSettings.ModelType.HUMAN);
-        playerModelTable = new Table();
-        playerModelTable.add(new Label(settings.getPlayerOneName(), skin));
-        playerModelTable.add(chkPlayerOneType);
-        playerModelTable.row();
-        playerModelTable.add(new Label(settings.getPlayerTwoName(), skin));
-        playerModelTable.add(chkPlayerTwoType);
+        playerDefinitionTable.add(shapeGroupPlayerTwo);
+        playerDefinitionTable.add(typeGroupPlayerTwo);
         //
         // Game modes
         //
@@ -190,9 +214,11 @@ public class GameSettingsScreen extends BaseScreen {
         inner = new Table();
         inner.add(settingsHeader).height(myscreenHeight - 130.0f);
         inner.row();
+        inner.add(new Label("Players", skin)).height(100);
+        inner.row();
         inner.add(playerDefinitionTable);
         inner.row();
-        inner.add(playerModelTable);
+        inner.add(new Label("Game", skin)).height(100);
         inner.row();
         inner.add(gameModesTable);
         inner.row();
@@ -200,10 +226,6 @@ public class GameSettingsScreen extends BaseScreen {
         inner.row();
         inner.add(btnSetAndGO);
         rootTable.add(inner).expand().top();
-    }
-
-    private void setParameters(){
-
     }
 
     @Override

@@ -30,12 +30,15 @@ public class Player {
 
         private PlayerType opponent;
         private TicTacToeCell.CellBrand brand;
+        private String name;
 
         static {
             PLAYER_TYPE_O.opponent = PlayerType.PLAYER_TYPE_X;
             PLAYER_TYPE_O.brand = TicTacToeCell.CellBrand.CIRCLE;
+            PLAYER_TYPE_O.name = "O";
             PLAYER_TYPE_X.opponent = PlayerType.PLAYER_TYPE_O;
             PLAYER_TYPE_X.brand = TicTacToeCell.CellBrand.CROSS;
+            PLAYER_TYPE_X.name = "X";
         }
 
         public TicTacToeCell.CellBrand getBrand() {
@@ -44,6 +47,11 @@ public class Player {
 
         public PlayerType getOpponent() {
             return opponent;
+        }
+
+        @Override
+        public String toString() {
+            return name;
         }
     }
 

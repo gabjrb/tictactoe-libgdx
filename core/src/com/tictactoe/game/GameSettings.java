@@ -1,5 +1,7 @@
 package com.tictactoe.game;
 
+import com.badlogic.gdx.utils.I18NBundle;
+
 /**
  * Created by Gabriel on 17/12/2017.
  */
@@ -17,10 +19,12 @@ public class GameSettings {
     private Boolean playedByRotation;
     private Boolean playerOneHasToStart;
     private Boolean playerTwoHasToStart;
+    private static I18NBundle nBundle;
 
-    public GameSettings(){
-        this.playerOneName = "You";
-        this.playerTwoName = "CPU";
+    public GameSettings(I18NBundle nBundle){
+        this.nBundle = nBundle;
+        this.playerOneName = nBundle.get("PlayerOneDefaultName");
+        this.playerTwoName = nBundle.get("PlayerModelComputer");
         this.playerTypeOne = Player.PlayerType.PLAYER_TYPE_X;
         this.playerTypeTwo = Player.PlayerType.PLAYER_TYPE_O;
         this.modelTypePlayerOne = ModelType.HUMAN;
@@ -32,20 +36,61 @@ public class GameSettings {
         this.playerTwoHasToStart = false;
     }
 
+    public static I18NBundle getnBundle() {
+        return nBundle;
+    }
+
     public enum ModelType{
         HUMAN,
-        COMPUTER
+        COMPUTER;
+
+        private String name;
+
+        static {
+            HUMAN.name = GameSettings.getnBundle().get("PlayerModelHuman");
+            COMPUTER.name = GameSettings.getnBundle().get("PlayerModelComputer");
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     public enum GameMod{
         NORMAL,
-        EXPIRING_MOVES
+        EXPIRING_MOVES;
+
+        private String name;
+
+        static {
+            NORMAL.name = GameSettings.getnBundle().get("GameModNormal");
+            EXPIRING_MOVES.name = GameSettings.getnBundle().get("GameModExpiration");
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     public enum Difficulty{
         EASY,
         MEDIUM,
-        HARD
+        HARD;
+
+        private  String name;
+
+        static {
+            EASY.name = GameSettings.getnBundle().get("GameDifficultyEasy");
+            MEDIUM.name = GameSettings.getnBundle().get("GameDifficultyMedium");
+            HARD.name = GameSettings.getnBundle().get("GameDifficultyHard");
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 
     public Difficulty getDifficulty() {

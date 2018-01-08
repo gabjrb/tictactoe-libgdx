@@ -1,21 +1,30 @@
 package com.tictactoe.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.tictactoe.game.GameConstants;
 import com.tictactoe.game.GameSettings;
 import com.tictactoe.game.TictactoeGame;
 
@@ -24,13 +33,16 @@ import com.tictactoe.game.TictactoeGame;
  */
 
 public class LoadingScreen extends BaseScreen {
-
     private TextureAtlas atlas;
     private Stage stage;
     private Skin skin;
-    private Label loading;
+//    private Label loading;
     private ProgressBar progressBar;
     private Table rootTable;
+    private Camera camera;
+    private ExtendViewport viewport;
+    private Sprite logo;
+    private SpriteBatch batch;
 
     public LoadingScreen(TictactoeGame game){
         super(game);
@@ -38,24 +50,38 @@ public class LoadingScreen extends BaseScreen {
 
     @Override
     public void show() {
-
+        //
+        // Load styles-resources
+        //
         game.getAssets().load();
         game.getAssets().getManager().finishLoading();
-
-        stage = new Stage(new FitViewport(640, 360));
-
-        rootTable = new Table();
-        rootTable.setFillParent(true);
-        rootTable.setBounds(0,0,640,360);
-        stage.addActor(rootTable);
-
-//        atlas = game.getAssets().getManager().get("ui/TicTacToe.atlas", TextureAtlas.class);
-//        skin = game.getAssets().getManager().get("ui/tictactoe-ui.json", Skin.class);
-
+        //
+        // Screen configuration
+        //
+        camera = new OrthographicCamera();
+        viewport = new ExtendViewport(GameConstants.WORLD_SIZE.x, GameConstants.WORLD_SIZE.y, camera);
+        viewport.setScreenBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        stage = new Stage(viewport);
+        //
+        // Game styles-resources
+        //
         atlas = game.getAssets().getManager().get("ui/tictactoe-game-ui.atlas", TextureAtlas.class);
         skin = game.getAssets().getManager().get("ui/tictactoe-game-ui.json", Skin.class);
+        //
+        // Game World
+        //
+        rootTable = new Table();
+        rootTable.setFillParent(true);
+        stage.addActor(rootTable);
+        //
+        // Logo Texture
+        //
+        Texture texture = new Texture(Gdx.files.internal("resources/company-logo.png"));
+        logo = new Sprite(texture);
+        Image image = new Image(new SpriteDrawable(logo));
+        batch = new SpriteBatch();
 
-        loading = new Label("Loading...", skin);
+//        loading = new Label("Loading...", skin);
 
         ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
 
@@ -68,7 +94,7 @@ public class LoadingScreen extends BaseScreen {
         progressBar.setAnimateDuration(2f);
         progressBar.setBounds(0, 0, 400, 40);
 
-        rootTable.add(loading);
+        rootTable.add(image).padBottom(30);
         rootTable.row();
         rootTable.add(progressBar).width(400);
     }
@@ -86,24 +112,30 @@ public class LoadingScreen extends BaseScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        viewport.apply();
+        stage.getViewport().apply();
+        stage.act(delta);
+        stage.draw();
+
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        logo.draw(batch);
+        batch.end();
 
         progressBar.setValue(game.getAssets().getManager().getProgress());
 
-        int progress = (int) (progressBar.getVisualValue() * 100) == 99 ? 100 : (int) (progressBar.getVisualValue() * 100);
+//        int progress = (int) (progressBar.getVisualValue() * 100) == 99 ? 100 : (int) (progressBar.getVisualValue() * 100);
 
-        loading.setText("Loading... " + progress + "%");
+//        loading.setText("Loading... " + progress + "%");
 
         if (game.getAssets().getManager().update() && progressBar.getVisualValue() == 1f) {
-            game.setScreen(new GameSettingsScreen(game));
+            game.setScreen(new MainMenuScreen(game));
         }
-
-        stage.act();
-        stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height, true);
     }
 
     @Override

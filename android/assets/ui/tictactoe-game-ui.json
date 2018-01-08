@@ -6,6 +6,9 @@
     "big-font": {
       "file": "font/verdana-big.fnt"
     },
+    "medium-large-font": {
+      "file": "font/verdana-medium-large.fnt"
+    },
     "small-font": {
       "file": "font/verdana-small.fnt"
     }
@@ -35,6 +38,12 @@
       "b": 0.44705883,
       "a": 1
     },
+    "color-b-menu": {
+      "r": 0.3372549,
+      "g": 0.8,
+      "b": 0.44705883,
+      "a": 0.5
+    },
     "pressed": {
       "r": 0.2529412,
       "g": 0.6,
@@ -52,6 +61,10 @@
     "button-c": {
       "name": "button",
       "color": "color"
+    },
+    "button-c-menu": {
+      "name": "button",
+      "color": "color-b-menu"
     },
     "button-p": {
       "name": "button",
@@ -161,6 +174,12 @@
       "downFontColor": "white",
       "up": "button-c",
       "down": "button-p"
+    },
+    "menu-button":{
+      "font": "big-font",
+      "fontColor": "white",
+      "up": "button-c-menu",
+      "down": "button-p"
     }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
@@ -240,7 +259,7 @@
   },
   "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle": {
     "default": {
-      "font": "default-font",
+      "font": "medium-large-font",
       "fontColor": "white",
       "background": "textfield-c",
       "cursor": "white",
@@ -283,7 +302,7 @@
   },
   "com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle": {
     "default": {
-      "font": "default-font",
+      "font": "medium-large-font",
       "fontColor": "white",
       "background": "select-box-c",
       "scrollStyle": "default",

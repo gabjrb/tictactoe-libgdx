@@ -16,8 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.tictactoe.dialogs.MultiplayerDialog;
 import com.tictactoe.game.GameConstants;
 import com.tictactoe.game.GameSettings;
+import com.tictactoe.game.MultiplayerDialogCallback;
 import com.tictactoe.game.TictactoeGame;
 
 
@@ -62,7 +64,6 @@ public class MainMenuScreen extends BaseScreen {
         // Game World
         //
         rootTable = new Table();
-        rootTable.setDebug(true);
         rootTable.setFillParent(true);
         stage.addActor(rootTable);
         //
@@ -77,6 +78,18 @@ public class MainMenuScreen extends BaseScreen {
         });
         btnSinglePlayer.pad(5,5,5,5);
         btnMultiPlayer = new TextButton(i18NBundle.get("MultiPlayer"), skin, "menu-button");
+        btnMultiPlayer.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                MultiplayerDialog multiplayerDialog = new MultiplayerDialog(game);
+                multiplayerDialog.showDialog(stage, new MultiplayerDialogCallback() {
+                    @Override
+                    public void setAndGo() {
+                        //
+                    }
+                });
+            }
+        });
         btnMultiPlayer.pad(5,5,5,5);
         btnOptions = new TextButton(i18NBundle.get("Options"), skin, "menu-button");
         btnOptions.pad(5,5,5,5);

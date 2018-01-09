@@ -231,6 +231,10 @@
       "font": "default-font",
       "fontColor": "color"
     },
+    "medium-large": {
+      "font": "medium-large-font",
+      "fontColor": "color"
+    },
     "big": {
       "font": "big-font",
       "fontColor": "color"

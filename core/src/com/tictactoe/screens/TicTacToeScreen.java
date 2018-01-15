@@ -2,6 +2,7 @@ package com.tictactoe.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -33,6 +34,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.I18NBundle;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -40,6 +42,7 @@ import com.tictactoe.dialogs.EndGameDialog;
 import com.tictactoe.game.AIPlayer;
 import com.tictactoe.game.EndGameDialogCallback;
 import com.tictactoe.game.GameConstants;
+import com.tictactoe.game.GamePlayHandler;
 import com.tictactoe.game.GameSettings;
 import com.tictactoe.game.MinimaxStrategy;
 import com.tictactoe.game.Player;
@@ -71,155 +74,16 @@ public class TicTacToeScreen extends BaseScreen {
     private VerticalGroup playerOneGroup;
     private VerticalGroup playerTwoGroup;
     private Label gameScore;
+    private Label gameMessages;
+    private Label gamePlayModeLabel;
     private Sprite[][] sprites;
-    private gameHandler gamePlayHandler;
+    private GamePlayHandler gamePlayHandler;
+    private Sound sound;
 
     public TicTacToeScreen(TictactoeGame game, GameSettings settings) {
         super(game);
         this.game = game;
-        this.gamePlayHandler = new gameHandler(settings);
-    }
-
-    private class gameHandler{
-        private TicTacToeBoard board;
-        private Player playerOne;
-        private Player playerTwo;
-        private Boolean turn;
-        private String winner;
-        private Integer playerOneScore;
-        private Integer playerTwoScore;
-        private GameSettings settings;
-        private Boolean openDialog;
-
-        public gameHandler(GameSettings settings){
-            this.settings = settings;
-            this.playerOneScore = 0;
-            this.playerTwoScore = 0;
-            gamePlayInitializer();
-        }
-
-        public Boolean handleTouch(Vector2 v){
-            if (board.gameOver())
-                return false;
-
-            if(turn && board.getCellOrigin(v)){
-                if (settings.getModelTypePlayerOne() == GameSettings.ModelType.HUMAN
-                        && settings.getModelTypePlayerTwo() == GameSettings.ModelType.COMPUTER){
-                    if (!board.setCell(v, playerOne.getPlayerType().getBrand()))
-                        return false;
-                    if (!board.gameOver())
-                        board.setCell(((AIPlayer)playerTwo).makeAIMove(), playerTwo.getPlayerType().getBrand());
-                    // Make delay
-                }
-                else if (settings.getModelTypePlayerOne() == GameSettings.ModelType.HUMAN
-                        && settings.getModelTypePlayerTwo() == GameSettings.ModelType.HUMAN){
-                    board.setCell(v, playerOne.getPlayerType().getBrand());
-                    turn = !turn;
-                }
-                return true;
-            }
-            else if (board.getCellOrigin(v)){
-                if (settings.getModelTypePlayerTwo() == GameSettings.ModelType.HUMAN
-                        && settings.getModelTypePlayerOne() == GameSettings.ModelType.COMPUTER){
-                    if (!board.setCell(v, playerTwo.getPlayerType().getBrand()))
-                        return false;
-                    if (!board.gameOver())
-                        board.setCell(((AIPlayer)playerOne).makeAIMove(), playerOne.getPlayerType().getBrand());
-                    // Make delay
-                }
-                else if (settings.getModelTypePlayerTwo() == GameSettings.ModelType.HUMAN
-                        && settings.getModelTypePlayerOne() == GameSettings.ModelType.HUMAN){
-                    board.setCell(v, playerTwo.getPlayerType().getBrand());
-                    turn = !turn;
-                }
-                return true;
-            }
-            return false;
-        }
-
-        public void gamePlayInitializer(){
-            this.board = new TicTacToeBoard();
-            this.turn = settings.getPlayerOneHasToStart();
-            this.openDialog = true;
-            switch (settings.getModelTypePlayerOne()) {
-                case HUMAN:
-                    playerOne = new Player(settings.getPlayerOneName(), settings.getPlayerTypeOne(), board, settings.getPlayerOneHasToStart());
-                    break;
-                case COMPUTER:
-                    playerOne = new AIPlayer(settings.getPlayerOneName(), settings.getPlayerTypeOne(), board, settings.getPlayerOneHasToStart(), new MinimaxStrategy());
-                    break;
-            }
-            switch (settings.getModelTypePlayerTwo()) {
-                case HUMAN:
-                    playerTwo = new Player(settings.getPlayerTwoName(), settings.getPlayerTypeTwo(), board, settings.getPlayerTwoHasToStart());
-                    break;
-                case COMPUTER:
-                    playerTwo = new AIPlayer(settings.getPlayerTwoName(), settings.getPlayerTypeTwo(), board, settings.getPlayerTwoHasToStart(), new MinimaxStrategy());
-                    break;
-            }
-        }
-
-        public TicTacToeBoard getBoard() {
-            return board;
-        }
-
-        public GameSettings.Difficulty getDifficulty(){
-            return settings.getDifficulty();
-        }
-
-        public Player getPlayerOne() {
-            return playerOne;
-        }
-
-        public Player getPlayerTwo() {
-            return playerTwo;
-        }
-
-        public Boolean hasWinner(){
-            if (board.getResults().getWinner() == Player.PlayerType.PLAYER_TYPE_X){
-                if (playerOne.getPlayerType() == Player.PlayerType.PLAYER_TYPE_X){
-                    winner = playerOne.getName();
-                    playerOneScore +=1;
-                }
-                else{
-                    winner = playerTwo.getName();
-                    playerTwoScore +=1;
-                }
-                return true;
-            }
-            else if(board.getResults().getWinner() == Player.PlayerType.PLAYER_TYPE_O){
-                if (playerOne.getPlayerType() == Player.PlayerType.PLAYER_TYPE_O){
-                    winner = playerOne.getName();
-                    playerOneScore +=1;
-                }
-                else{
-                    winner = playerTwo.getName();
-                    playerTwoScore +=1;
-                }
-                return true;
-            }
-            return false;
-        }
-
-        public String getWinnerName(){
-            return winner;
-        }
-
-        public Integer getScorePlayerOne(){
-            return playerOneScore;
-        }
-
-        public Integer getScorePlayerTwo(){
-            return playerTwoScore;
-        }
-
-        public Boolean getOpenDialog() {
-            return openDialog;
-        }
-
-        public void setOpenDialog(Boolean openDialog) {
-            this.openDialog = openDialog;
-        }
+        this.gamePlayHandler = new GamePlayHandler(game, settings);
     }
 
     private void drawBoard(ShapeRenderer renderer){
@@ -260,6 +124,10 @@ public class TicTacToeScreen extends BaseScreen {
 
     @Override
     public void show() {
+
+        sound = Gdx.audio.newSound(Gdx.files.internal("resources/board-sound.wav"));
+
+        gamePlayHandler.gamePlayInitializer();
         //
         // Screen configuration
         //
@@ -302,20 +170,30 @@ public class TicTacToeScreen extends BaseScreen {
         //
         // Game UI Header
         //
+        gameMessages = new Label(gamePlayHandler.messages(),skin);
         backButton = new ImageTextButton(i18NBundle.get("GoBack"), skin, "back-button");
+        backButton.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y){
+                game.setScreen(new MainMenuScreen(game));
+            }
+        });
         restartButton = new ImageButton(skin, "restart");
         restartButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y){
+                gamePlayHandler.getPlayerAIMovementTask().cancel();
                 gamePlayHandler.gamePlayInitializer();
             }
         });
         optionsButton = new ImageButton(skin, "options");
+        gamePlayModeLabel = new Label(gamePlayHandler.getGamePlayMode() == GameSettings.GamePlayMode.MULTIPLAYER ?
+                i18NBundle.get("MultiPlayer") : gamePlayHandler.getDifficulty().toString(), skin, "screen-name");
+        gamePlayModeLabel.setAlignment(Align.center);
         Pixmap pm1 = new Pixmap(1, 1, Pixmap.Format.RGB565);
         pm1.setColor(Color.GRAY);
         pm1.fill();
         boardHeader = new Table();
         boardHeader.add(backButton).width(160);
-        boardHeader.add(new TextButton(gamePlayHandler.getDifficulty().toString(),skin)).width(280);
+        boardHeader.add(gamePlayModeLabel).width(280);
         boardHeader.add(restartButton).width(100);
         boardHeader.add(optionsButton).width(100);
         boardHeader.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(pm1))));
@@ -343,7 +221,7 @@ public class TicTacToeScreen extends BaseScreen {
         inner = new Table();
         inner.add(boardHeader).height(myscreenHeight - 130.0f);
         inner.row();
-        inner.add(new Label("It's your turn", skin)).height(130.f);
+        inner.add(gameMessages).height(130.f);
         inner.row();
         inner.add().height(myscreenHeight*2);
         inner.row();
@@ -371,24 +249,15 @@ public class TicTacToeScreen extends BaseScreen {
         stage.getViewport().apply();
         stage.act(delta);
         stage.draw();
+        gamePlayHandler.verifier(stage);
+        gameMessages.setText(gamePlayHandler.messages());
+        gameScore.setText(gamePlayHandler.getGameScore());
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        gamePlayHandler.handleTouch(viewport.unproject(new Vector2(screenX, screenY)));
-        if (gamePlayHandler.getBoard().gameOver() && gamePlayHandler.getOpenDialog()){
-            EndGameDialog endGameDialog = new EndGameDialog(this.game, gamePlayHandler.hasWinner(),
-                    gamePlayHandler.getWinnerName());
-            endGameDialog.showDialog(this.stage, new EndGameDialogCallback() {
-                @Override
-                public void restartGame() {
-                    gamePlayHandler.gamePlayInitializer();
-                }
-            });
-            gamePlayHandler.setOpenDialog(false);
-            gameScore.setText(gamePlayHandler.getScorePlayerOne() + " : " + gamePlayHandler.getScorePlayerTwo());
-        }
-        return true;
+        sound.play(1.0f);
+        return gamePlayHandler.handleTouch(viewport.unproject(new Vector2(screenX, screenY)));
     }
 
     @Override

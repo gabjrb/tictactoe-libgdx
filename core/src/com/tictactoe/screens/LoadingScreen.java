@@ -124,10 +124,6 @@ public class LoadingScreen extends BaseScreen {
 
         progressBar.setValue(game.getAssets().getManager().getProgress());
 
-//        int progress = (int) (progressBar.getVisualValue() * 100) == 99 ? 100 : (int) (progressBar.getVisualValue() * 100);
-
-//        loading.setText("Loading... " + progress + "%");
-
         if (game.getAssets().getManager().update() && progressBar.getVisualValue() == 1f) {
             game.setScreen(new MainMenuScreen(game));
         }

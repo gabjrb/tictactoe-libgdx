@@ -19,6 +19,7 @@ public class GameSettings {
     private Boolean playedByRotation;
     private Boolean playerOneHasToStart;
     private Boolean playerTwoHasToStart;
+    private GamePlayMode gamePlayMode;
     private static I18NBundle nBundle;
 
     public GameSettings(I18NBundle nBundle){
@@ -34,10 +35,16 @@ public class GameSettings {
         this.playedByRotation = false;
         this.playerOneHasToStart = true;
         this.playerTwoHasToStart = false;
+        this.gamePlayMode = GamePlayMode.SINGLEPLAYER;
     }
 
     public static I18NBundle getnBundle() {
         return nBundle;
+    }
+
+    public enum GamePlayMode{
+        SINGLEPLAYER,
+        MULTIPLAYER
     }
 
     public enum ModelType{
@@ -93,47 +100,99 @@ public class GameSettings {
         }
     }
 
+    public void setGamePlayMode(GamePlayMode gamePlayMode) {
+        this.gamePlayMode = gamePlayMode;
+    }
+
+    public GamePlayMode getGamePlayMode() {
+        return gamePlayMode;
+    }
+
     public Difficulty getDifficulty() {
         return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public GameMod getGameMod() {
         return gameMod;
     }
 
+    public void setGameMod(GameMod gameMod) {
+        this.gameMod = gameMod;
+    }
+
     public Boolean getPlayedByRotation() {
         return playedByRotation;
+    }
+
+    public void setPlayedByRotation(Boolean playedByRotation) {
+        this.playedByRotation = playedByRotation;
     }
 
     public String getPlayerOneName() {
         return playerOneName;
     }
 
+    public void setPlayerOneName(String playerOneName) {
+        this.playerOneName = playerOneName;
+    }
+
     public String getPlayerTwoName() {
         return playerTwoName;
+    }
+
+    public void setPlayerTwoName(String playerTwoName) {
+        this.playerTwoName = playerTwoName;
     }
 
     public Player.PlayerType getPlayerTypeOne() {
         return playerTypeOne;
     }
 
+    public void setPlayerTypeOne(Player.PlayerType playerTypeOne) {
+        this.playerTypeOne = playerTypeOne;
+    }
+
     public Player.PlayerType getPlayerTypeTwo() {
         return playerTypeTwo;
+    }
+
+    public void setPlayerTypeTwo(Player.PlayerType playerTypeTwo) {
+        this.playerTypeTwo = playerTypeTwo;
     }
 
     public ModelType getModelTypePlayerOne() {
         return modelTypePlayerOne;
     }
 
+    public void setModelTypePlayerOne(ModelType modelTypePlayerOne) {
+        this.modelTypePlayerOne = modelTypePlayerOne;
+    }
+
     public ModelType getModelTypePlayerTwo() {
         return modelTypePlayerTwo;
+    }
+
+    public void setModelTypePlayerTwo(ModelType modelTypePlayerTwo) {
+        this.modelTypePlayerTwo = modelTypePlayerTwo;
     }
 
     public Boolean getPlayerOneHasToStart() {
         return playerOneHasToStart;
     }
 
+    public void setPlayerOneHasToStart(Boolean playerOneHasToStart) {
+        this.playerOneHasToStart = playerOneHasToStart;
+    }
+
     public Boolean getPlayerTwoHasToStart() {
         return playerTwoHasToStart;
+    }
+
+    public void setPlayerTwoHasToStart(Boolean playerTwoHasToStart) {
+        this.playerTwoHasToStart = playerTwoHasToStart;
     }
 }

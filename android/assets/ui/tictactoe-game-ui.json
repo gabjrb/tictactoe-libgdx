@@ -180,6 +180,14 @@
       "fontColor": "white",
       "up": "button-c-menu",
       "down": "button-p"
+    },
+    "toggle":{
+      "font": "default-font",
+      "fontColor": "white",
+      "downFontColor": "white",
+      "up": "button-c",
+      "down": "button-p",
+      "checked": "button-p"
     }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {

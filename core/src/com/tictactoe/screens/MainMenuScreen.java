@@ -17,9 +17,9 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.tictactoe.dialogs.MultiplayerDialog;
+import com.tictactoe.dialogs.OptionsDialog;
+import com.tictactoe.dialogs.SingleplayerDialog;
 import com.tictactoe.game.GameConstants;
-import com.tictactoe.game.GameSettings;
-import com.tictactoe.game.MultiplayerDialogCallback;
 import com.tictactoe.game.TictactoeGame;
 
 
@@ -73,7 +73,8 @@ public class MainMenuScreen extends BaseScreen {
         btnSinglePlayer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new TicTacToeScreen(game, new GameSettings(i18NBundle)));
+                SingleplayerDialog singleplayerDialog = new SingleplayerDialog(game);
+                singleplayerDialog.showDialog(stage);
             }
         });
         btnSinglePlayer.pad(5,5,5,5);
@@ -82,16 +83,18 @@ public class MainMenuScreen extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 MultiplayerDialog multiplayerDialog = new MultiplayerDialog(game);
-                multiplayerDialog.showDialog(stage, new MultiplayerDialogCallback() {
-                    @Override
-                    public void setAndGo() {
-                        //
-                    }
-                });
+                multiplayerDialog.showDialog(stage);
             }
         });
         btnMultiPlayer.pad(5,5,5,5);
         btnOptions = new TextButton(i18NBundle.get("Options"), skin, "menu-button");
+        btnOptions.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                OptionsDialog optionsDialog = new OptionsDialog(game);
+                optionsDialog.showDialog(stage);
+            }
+        });
         btnOptions.pad(5,5,5,5);
         btnAbout = new TextButton(i18NBundle.get("About"), skin, "menu-button");
         btnAbout.pad(5,5,5,5);

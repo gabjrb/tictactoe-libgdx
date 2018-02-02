@@ -8,15 +8,15 @@ import com.badlogic.gdx.math.Vector2;
 
 public class AIPlayer extends Player {
 
-    MinimaxStrategy strategy;
+    private IDifficulty difficulty;
 
-    public AIPlayer(String name, PlayerType type, TicTacToeBoard board, Boolean haveToStart, MinimaxStrategy strategy){
+    public AIPlayer(String name, PlayerType type, TicTacToeBoard board, Boolean haveToStart, IDifficulty difficulty){
         super(name, type, board, haveToStart);
-        this.strategy = strategy;
+        this.difficulty = difficulty;
     }
 
     public Vector2 makeAIMove(){
-        Vector2 bestPosition = strategy.BestMove(getBoard(),this);
+        Vector2 bestPosition = difficulty.bestMove(getBoard(),this);
         return  bestPosition;
     }
 }

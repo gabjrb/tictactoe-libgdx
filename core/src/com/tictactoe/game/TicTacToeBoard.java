@@ -2,6 +2,7 @@ package com.tictactoe.game;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Queue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +13,11 @@ import java.util.List;
 
 public class TicTacToeBoard {
     private TicTacToeCell[][] cells;
+    private Queue<TicTacToeCell> cellQueue;
+
     public TicTacToeBoard()
     {
+        this.cellQueue = new Queue<TicTacToeCell>();
         this.cells = new TicTacToeCell[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -73,10 +77,28 @@ public class TicTacToeBoard {
     public boolean setCell(Vector2 position, TicTacToeCell.CellBrand brand) {
         if (cells[(int)position.x][(int)position.y].getCellBrand() == TicTacToeCell.CellBrand.NOTHING) {
             cells[(int)position.x][(int)position.y].setCellBrand(brand);
+            cellQueue.addLast(getCell(position));
         } else {
             return false;
         }
         return true;
+    }
+
+    public void setCellLive(TicTacToeCell cell){
+        cells[(int)cell.getPosition().x][(int)cell.getPosition().y].setLives(cell.getLives() - 1);
+        if (cells[(int)cell.getPosition().x][(int)cell.getPosition().y].getLives() == 0){
+            cellQueue.removeFirst();
+            cells[(int)cell.getPosition().x][(int)cell.getPosition().y].setLives(3);
+            cells[(int)cell.getPosition().x][(int)cell.getPosition().y].setCellBrand(TicTacToeCell.CellBrand.NOTHING);
+        }
+    }
+
+    public Queue<TicTacToeCell> getCellQueue() {
+        return cellQueue;
+    }
+
+    public TicTacToeCell getCell(Vector2 position){
+        return cells[(int)position.x][(int)position.y];
     }
 
     public static Boolean getCellOrigin(Vector2 v){

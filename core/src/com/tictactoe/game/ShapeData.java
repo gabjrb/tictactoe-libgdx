@@ -17,13 +17,13 @@ public class ShapeData {
         this.position = getOriginCellBoard(p);
         this.boardPosition = p;
         this.name = pl;
-        this.width = (int)GameConstants.CELL_SIZE.x;
-        this.heigth = (int)GameConstants.CELL_SIZE.y;
+        this.width = (int)GameConstants.CELL_SIZE.x - GameConstants.HorizontalShift;
+        this.heigth = (int)GameConstants.CELL_SIZE.y - GameConstants.Elevation;
     }
 
     private Vector2 getOriginCellBoard(Vector2 v){
-        return new Vector2(GameConstants.HorizontalShift + (v.x * GameConstants.CELL_SIZE.x),
-                GameConstants.Elevation + (v.y * GameConstants.CELL_SIZE.y));
+        return new Vector2(GameConstants.HorizontalShift + (GameConstants.HorizontalShift*0.5f) + (v.x * GameConstants.CELL_SIZE.x),
+                GameConstants.Elevation + (GameConstants.Elevation*0.5f) + (v.y * GameConstants.CELL_SIZE.y));
     }
 
     public String getShapeName() { return name; }

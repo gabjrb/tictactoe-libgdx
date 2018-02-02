@@ -11,6 +11,9 @@
     },
     "small-font": {
       "file": "font/verdana-small.fnt"
+    },
+    "piece-detail-font": {
+      "file": "font/piece-detail.fnt"
     }
   },
   "com.badlogic.gdx.graphics.Color": {

@@ -21,6 +21,10 @@ public class TictactoeGame extends Game {
 	    setScreen(new SplashScreen(this));
 	}
 
+    public void setAssets(Assets assets) {
+        this.assets = assets;
+    }
+
     public Assets getAssets() {
         return assets;
     }

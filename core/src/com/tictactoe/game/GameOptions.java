@@ -11,14 +11,10 @@ import java.util.Locale;
 
 public class GameOptions {
     private static final GameOptions ourInstance = new GameOptions();
-
-    public static GameOptions getInstance() {
-        return ourInstance;
-    }
-
     private Preferences prefs;
+    private Languages language;
 
-    private GameOptions() {
+    public GameOptions() {
         prefs = Gdx.app.getPreferences("game-options-prefs");
     }
 
@@ -26,23 +22,46 @@ public class GameOptions {
         return prefs;
     }
 
-    public void setLanguage(String locale){
-        getPreferences().putString("language", locale);
+    public static GameOptions getInstance() {
+        return ourInstance;
+    }
+
+    public void setLanguage(Languages language){
+        this.language = language;
+        switch (language){
+            case ENGLISH:
+                getPreferences().putString("language", Languages.ENGLISH.name);
+                break;
+            case SPANISH:
+                getPreferences().putString("language", Languages.SPANISH.name);
+                break;
+            case PORTUGUESE:
+                getPreferences().putString("language", Languages.PORTUGUESE.name);
+                break;
+        }
         getPreferences().flush();
     }
 
-    public String getLanguage(){
-        return getPreferences().getString("language", "root");
+    public Locale getLanguageLocale(){
+        String localeLang = getPreferences().getString("language", "English").toString();
+        if (localeLang.equals("English")){
+            this.language = Languages.ENGLISH;
+            return Languages.ENGLISH.getLocale();
+        }
+        if ((localeLang.equals("Español"))){
+            this.language = Languages.SPANISH;
+            return Languages.SPANISH.getLocale();
+        }
+        if ((localeLang.equals("Portugues"))){
+            this.language = Languages.PORTUGUESE;
+            return Languages.PORTUGUESE.getLocale();
+        }
+        return Locale.ROOT;
     }
 
-//    public boolean isMusicEnabled(){
-//        return getPreferences().getBoolean("music", true);
-//    }
-//
-//    public void setMusicEnabled(boolean enabled){
-//        getPreferences().putBoolean("music", enabled);
-//        getPreferences().flush();
-//    }
+    public Languages getLanguage(){
+        return language;
+    }
 
     public boolean isFxEnabled(){
         return getPreferences().getBoolean("fx", true);
@@ -51,5 +70,32 @@ public class GameOptions {
     public void setFxEnabled(boolean enabled){
         getPreferences().putBoolean("fx", enabled);
         getPreferences().flush();
+    }
+
+    public enum Languages{
+        ENGLISH,
+        SPANISH,
+        PORTUGUESE;
+
+        private  String name;
+        private Locale locale;
+
+        static {
+            ENGLISH.name = "English";
+            ENGLISH.locale = Locale.ROOT;
+            SPANISH.name = "Español";
+            SPANISH.locale = new Locale("es");
+            PORTUGUESE.name = "Portugues";
+            PORTUGUESE.locale = new Locale("pt");
+        }
+
+        public Locale getLocale() {
+            return locale;
+        }
+
+        @Override
+        public String toString() {
+            return name;
+        }
     }
 }

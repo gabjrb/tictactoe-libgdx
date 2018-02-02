@@ -89,7 +89,7 @@ public class SingleplayerDialog extends BaseDialog {
         difficultyLabel = new Label(i18NBundle.get("GameDifficulty"), getSkin());
         cboDifficulty = new SelectBox<GameSettings.Difficulty>(getSkin());
         cboDifficulty.setItems(GameSettings.Difficulty.EASY, GameSettings.Difficulty.MEDIUM,
-                GameSettings.Difficulty.HARD);
+                GameSettings.Difficulty.HARD, GameSettings.Difficulty.UNBEATABLE);
         lblplayeShape = new Label("Shape", getSkin());
         cboPlayerShape = new SelectBox<Player.PlayerType>(getSkin());
         cboPlayerShape.setItems(new Player.PlayerType[]{Player.PlayerType.PLAYER_TYPE_X, Player.PlayerType.PLAYER_TYPE_O});

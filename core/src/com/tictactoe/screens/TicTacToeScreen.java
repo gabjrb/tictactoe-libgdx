@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -48,6 +50,7 @@ import com.tictactoe.game.MinimaxStrategy;
 import com.tictactoe.game.Player;
 import com.tictactoe.game.ShapeData;
 import com.tictactoe.game.TicTacToeBoard;
+import com.tictactoe.game.TicTacToeCell;
 import com.tictactoe.game.TictactoeGame;
 
 /**
@@ -65,6 +68,7 @@ public class TicTacToeScreen extends BaseScreen {
     private I18NBundle i18NBundle;
     private ShapeRenderer renderer;
     private SpriteBatch spriteBatch;
+    private SpriteBatch pieceDetailBatch;
     private ImageTextButton backButton;
     private ImageButton optionsButton, restartButton;
     private Table rootTable;
@@ -91,34 +95,47 @@ public class TicTacToeScreen extends BaseScreen {
         renderer.rectLine(GameConstants.CELL_SIZE.x + GameConstants.HorizontalShift,
                 0 + GameConstants.Elevation,
                 GameConstants.CELL_SIZE.x + GameConstants.HorizontalShift,
-                GameConstants.BOARD_SIZE.y + GameConstants.Elevation, 0.075f);
+                GameConstants.BOARD_SIZE.y + GameConstants.Elevation, 0.75f);
         renderer.rectLine((2*GameConstants.CELL_SIZE.x) + GameConstants.HorizontalShift,
                 0 + GameConstants.Elevation,
                 (2*GameConstants.CELL_SIZE.x) + GameConstants.HorizontalShift,
-                GameConstants.BOARD_SIZE.y + GameConstants.Elevation, 0.075f);
+                GameConstants.BOARD_SIZE.y + GameConstants.Elevation, 0.75f);
         renderer.rectLine(0 + GameConstants.HorizontalShift,
                 (2*GameConstants.CELL_SIZE.y) + GameConstants.Elevation,
                 GameConstants.BOARD_SIZE.x + GameConstants.HorizontalShift,
-                (2*GameConstants.CELL_SIZE.y) + GameConstants.Elevation, 0.075f);
+                (2*GameConstants.CELL_SIZE.y) + GameConstants.Elevation, 0.75f);
         renderer.rectLine(0 + GameConstants.HorizontalShift,
                 GameConstants.CELL_SIZE.y + GameConstants.Elevation,
                 GameConstants.BOARD_SIZE.x + GameConstants.HorizontalShift,
-                GameConstants.CELL_SIZE.y + GameConstants.Elevation, 0.075f);
+                GameConstants.CELL_SIZE.y + GameConstants.Elevation, 0.75f);
     }
 
     private void renderPieces(SpriteBatch batch, TextureAtlas atlas) {
-        for (ShapeData data : gamePlayHandler.getBoard().getCrosses()) {
+        for (ShapeData data : gamePlayHandler.getCrosses()) {
             sprites[data.getBoardPositionX()][data.getBoardPositionY()].setRegion(atlas.findRegion(data.getShapeName()));
             sprites[data.getBoardPositionX()][data.getBoardPositionY()].setSize(data.getWidth(), data.getHeigth());
             sprites[data.getBoardPositionX()][data.getBoardPositionY()].setPosition(data.getPositionX(), data.getPositionY());
             sprites[data.getBoardPositionX()][data.getBoardPositionY()].draw(batch);
         }
-
-        for (ShapeData data : gamePlayHandler.getBoard().getCircles()) {
+        for (ShapeData data : gamePlayHandler.getCircles()) {
             sprites[data.getBoardPositionX()][data.getBoardPositionY()].setRegion(atlas.findRegion(data.getShapeName()));
             sprites[data.getBoardPositionX()][data.getBoardPositionY()].setSize(data.getWidth(), data.getHeigth());
             sprites[data.getBoardPositionX()][data.getBoardPositionY()].setPosition(data.getPositionX(), data.getPositionY());
             sprites[data.getBoardPositionX()][data.getBoardPositionY()].draw(batch);
+        }
+    }
+
+    private void renderPieceDetail(){
+        if (gamePlayHandler.getCelltobeRemoved().getCellBrand() != TicTacToeCell.CellBrand.NOTHING) {
+            Vector3 worldLocation = new Vector3(gamePlayHandler.getCelltobeRemoved().getShapeData().getPositionX(),
+                    gamePlayHandler.getCelltobeRemoved().getShapeData().getPositionY(), 0);
+            pieceDetailBatch.setProjectionMatrix(cameraGame.combined);
+            pieceDetailBatch.begin();
+            BitmapFont cellRemainFnt = skin.getFont("piece-detail-font");
+            cellRemainFnt.setColor(Color.RED);
+            cellRemainFnt.getData().setScale(0.225f);
+            cellRemainFnt.draw(pieceDetailBatch, String.format("%d", gamePlayHandler.getCelltobeRemoved().getLives()), worldLocation.x, worldLocation.y);
+            pieceDetailBatch.end();
         }
     }
 
@@ -155,6 +172,7 @@ public class TicTacToeScreen extends BaseScreen {
         //
         renderer = new ShapeRenderer();
         spriteBatch = new SpriteBatch();
+        pieceDetailBatch = new SpriteBatch();
         rootTable = new Table();
         rootTable.setFillParent(true);
         stage.addActor(rootTable);
@@ -245,6 +263,7 @@ public class TicTacToeScreen extends BaseScreen {
         spriteBatch.begin();
         renderPieces(spriteBatch, atlas);
         spriteBatch.end();
+        renderPieceDetail();
         screenViewport.apply();
         stage.getViewport().apply();
         stage.act(delta);
@@ -256,8 +275,9 @@ public class TicTacToeScreen extends BaseScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        sound.play(1.0f);
-        return gamePlayHandler.handleTouch(viewport.unproject(new Vector2(screenX, screenY)));
+        if (gamePlayHandler.handleTouch(viewport.unproject(new Vector2(screenX, screenY))))
+            sound.play(1.0f);
+        return true;
     }
 
     @Override
@@ -289,5 +309,6 @@ public class TicTacToeScreen extends BaseScreen {
         skin.dispose();
         renderer.dispose();
         spriteBatch.dispose();
+        pieceDetailBatch.dispose();
     }
 }

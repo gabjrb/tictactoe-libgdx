@@ -84,7 +84,8 @@ public class GameSettings {
     public enum Difficulty{
         EASY,
         MEDIUM,
-        HARD;
+        HARD,
+        UNBEATABLE;
 
         private  String name;
 
@@ -92,6 +93,7 @@ public class GameSettings {
             EASY.name = GameSettings.getnBundle().get("GameDifficultyEasy");
             MEDIUM.name = GameSettings.getnBundle().get("GameDifficultyMedium");
             HARD.name = GameSettings.getnBundle().get("GameDifficultyHard");
+            UNBEATABLE.name = GameSettings.getnBundle().get("GameDifficultyUnbeatable");
         }
 
         @Override

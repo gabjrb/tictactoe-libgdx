@@ -11,16 +11,19 @@ public class TicTacToeCell {
     private CellBrand cellBrand;
     private Vector2 position;
     private ShapeData shapeData;
+    private int lives;
 
     public TicTacToeCell(TicTacToeCell cell){
         this.cellBrand = cell.cellBrand;
         this.shapeData = cell.shapeData;
         this.position = cell.position;
+        this.lives = cell.lives;
     }
 
     public TicTacToeCell(Vector2 position){
         this.position = position;
         this.cellBrand = CellBrand.NOTHING;
+        this.lives = 3;
     }
 
     public enum CellBrand{
@@ -56,5 +59,13 @@ public class TicTacToeCell {
 
     public ShapeData getShapeData() {
         return shapeData;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public int getLives() {
+        return lives;
     }
 }

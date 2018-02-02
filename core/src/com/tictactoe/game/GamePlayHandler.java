@@ -2,6 +2,8 @@ package com.tictactoe.game;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Queue;
 import com.badlogic.gdx.utils.Timer;
 import com.tictactoe.dialogs.EndGameDialog;
 
@@ -51,9 +53,17 @@ public class GamePlayHandler {
                     return false;
                 turn = !turn;
             }
+            if (settings.getGameMod() == GameSettings.GameMod.EXPIRING_MOVES)
+                board.setCellLive(board.getCellQueue().first());
             return true;
         }
         return false;
+    }
+
+    public TicTacToeCell getCelltobeRemoved(){
+        if ((settings.getGameMod() == GameSettings.GameMod.EXPIRING_MOVES) && (board.getCellQueue().size > 0))
+            return board.getCellQueue().first();
+        return new TicTacToeCell(new Vector2());
     }
 
     public void verifier(Stage stage) {
@@ -86,6 +96,25 @@ public class GamePlayHandler {
         }
     }
 
+    private IDifficulty getDifficultyLevel(){
+        IDifficulty level = new MinimaxStrategy();
+        switch (settings.getDifficulty()){
+            case EASY:
+                level = new RandomStrategy();
+                break;
+            case MEDIUM:
+                level = new RuleBasedStrategy();
+                break;
+            case HARD:
+                level = new SuccessRateBasedStrategy(35);
+                break;
+            case UNBEATABLE:
+                level = new MinimaxStrategy();
+                break;
+        }
+        return level;
+    }
+
     public void gamePlayInitializer() {
         this.board = new TicTacToeBoard();
         if (settings.getPlayerOneHasToStart())
@@ -98,7 +127,7 @@ public class GamePlayHandler {
                 playerOne = new Player(settings.getPlayerOneName(), settings.getPlayerTypeOne(), board, settings.getPlayerOneHasToStart());
                 break;
             case COMPUTER:
-                playerOne = new AIPlayer(settings.getPlayerOneName(), settings.getPlayerTypeOne(), board, settings.getPlayerOneHasToStart(), new MinimaxStrategy());
+                playerOne = new AIPlayer(settings.getPlayerOneName(), settings.getPlayerTypeOne(), board, settings.getPlayerOneHasToStart(), getDifficultyLevel());
                 break;
         }
         switch (settings.getModelTypePlayerTwo()) {
@@ -106,15 +135,16 @@ public class GamePlayHandler {
                 playerTwo = new Player(settings.getPlayerTwoName(), settings.getPlayerTypeTwo(), board, settings.getPlayerTwoHasToStart());
                 break;
             case COMPUTER:
-                playerTwo = new AIPlayer(settings.getPlayerTwoName(), settings.getPlayerTypeTwo(), board, settings.getPlayerTwoHasToStart(), new MinimaxStrategy());
+                playerTwo = new AIPlayer(settings.getPlayerTwoName(), settings.getPlayerTypeTwo(), board, settings.getPlayerTwoHasToStart(), getDifficultyLevel());
                 break;
         }
 
         playerAIMovementTask = new Timer.Task() {
             @Override
             public void run() {
-                board.setCell(turn ? ((AIPlayer) playerTwo).makeAIMove() : ((AIPlayer) playerOne).makeAIMove(),
-                        turn ? playerTwo.getPlayerType().getBrand() : playerOne.getPlayerType().getBrand());
+                if (board.setCell(turn ? ((AIPlayer) playerTwo).makeAIMove() : ((AIPlayer) playerOne).makeAIMove(),
+                        turn ? playerTwo.getPlayerType().getBrand() : playerOne.getPlayerType().getBrand()) && settings.getGameMod() == GameSettings.GameMod.EXPIRING_MOVES)
+                    board.setCellLive(board.getCellQueue().first());
             }
         };
 
@@ -149,6 +179,28 @@ public class GamePlayHandler {
             return true;
         }
         return false;
+    }
+
+    public Array<ShapeData> getCircles() {
+        Array<ShapeData> shapes = new Array<ShapeData>();
+        if (settings.getGameMod() == GameSettings.GameMod.NORMAL)
+            return board.getCircles();
+        for (TicTacToeCell cell: board.getCellQueue()) {
+            if (cell.getCellBrand() == TicTacToeCell.CellBrand.CIRCLE)
+                shapes.add(cell.getShapeData());
+        }
+        return shapes;
+    }
+
+    public Array<ShapeData> getCrosses() {
+        Array<ShapeData> shapes = new Array<ShapeData>();
+        if (settings.getGameMod() == GameSettings.GameMod.NORMAL)
+            return board.getCrosses();
+        for (TicTacToeCell cell: board.getCellQueue()) {
+            if (cell.getCellBrand() == TicTacToeCell.CellBrand.CROSS)
+                shapes.add(cell.getShapeData());
+        }
+        return shapes;
     }
 
     public Timer.Task getPlayerAIMovementTask() {

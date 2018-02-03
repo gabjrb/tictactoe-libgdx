@@ -34,7 +34,7 @@ public class MultiplayerDialog extends BaseDialog {
     private Label lblplayerOneName;
     private TextField txtplayerOneName;
     private Label lblplayerOneShape;
-    private SelectBox<Player.PlayerType> cboPlayerOneShape;
+    private TextButton btnPlayerOneShape;
     //
     // Player Two
     //
@@ -42,15 +42,15 @@ public class MultiplayerDialog extends BaseDialog {
     private Label lblplayerTwoName;
     private TextField txtplayerTwoName;
     private Label lblplayerTwoShape;
-    private SelectBox<Player.PlayerType> cboPlayerTwoShape;
+    private TextButton btnPlayerTwoShape;
     //
     // Game
     //
     private Label lblwhoStarts;
     private Label lblfirstMove;
     private Label lblByRotation;
-    private CheckBox chkByRotation;
-    private SelectBox<String> cboFirstMovePlayer;
+    private TextButton btnByRotation;
+    private TextButton btnFirstMovePlayer;
     private TictactoeGame game;
     private GameSettings settings;
     private I18NBundle i18NBundle;
@@ -60,11 +60,10 @@ public class MultiplayerDialog extends BaseDialog {
         this.game = game;
         this.i18NBundle = this.game.getAssets().getManager().get("resources/messages", I18NBundle.class);
         this.settings = new GameSettings(i18NBundle);
-        dialog = new com.badlogic.gdx.scenes.scene2d.ui.Dialog("", getSkin()) {
+        dialog = new com.badlogic.gdx.scenes.scene2d.ui.Dialog(i18NBundle.get("MultiPlayer"), getSkin()) {
             protected void result(Object object) {
                 setParameters();
                 game.setScreen(new TicTacToeScreen(game, settings));
-//                callBack.setAndGo();
             }
         };
         dialog.setModal(true);
@@ -76,7 +75,7 @@ public class MultiplayerDialog extends BaseDialog {
         loadControls();
     }
 
-    private void loadControls(){
+    private void loadControls() {
         closeWindowsButton = new ImageButton(getSkin(), "close");
         closeWindowsButton.addListener(new ClickListener() {
             @Override
@@ -84,67 +83,74 @@ public class MultiplayerDialog extends BaseDialog {
                 dialog.hide();
             }
         });
-        this.dialog.getTitleTable().add(closeWindowsButton);
-        start = new TextButton("Start", getSkin());
+        this.dialog.getTitleTable().add(closeWindowsButton);//i18NBundle.get("")
+        start = new TextButton(i18NBundle.get("StartGame"), getSkin());
         playerOneTitle = new Label(i18NBundle.get("PlayerOneDefault"), getSkin(), "medium-large");
         playerOneTitle.setAlignment(Align.left);
-        lblplayerOneName = new Label("Name", getSkin());
-        txtplayerOneName = new TextField("Player1", getSkin());
-        lblplayerOneShape = new Label("Shape",getSkin());
-        cboPlayerOneShape = new SelectBox<Player.PlayerType>(getSkin());
-        cboPlayerOneShape.setItems(new Player.PlayerType[] {Player.PlayerType.PLAYER_TYPE_X, Player.PlayerType.PLAYER_TYPE_O});
-        cboPlayerOneShape.setSelected(settings.getPlayerTypeOne());
-        cboPlayerOneShape.addListener(new ChangeListener() {
+        lblplayerOneName = new Label(i18NBundle.get("PlayerName"), getSkin());
+        txtplayerOneName = new TextField(i18NBundle.get("PlayerOneDefault"), getSkin());
+        lblplayerOneShape = new Label(i18NBundle.get("Shape"), getSkin());
+        btnPlayerOneShape = new TextButton("X", getSkin(), "toggle");
+        btnPlayerOneShape.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                cboPlayerTwoShape.setSelected(cboPlayerOneShape.getSelected().getOpponent());
+                btnPlayerOneShape.setText(!btnPlayerOneShape.isChecked() ? "X" : "O");
+                btnPlayerTwoShape.setChecked(!btnPlayerOneShape.isChecked());
             }
         });
-
         playerTwoTitle = new Label(i18NBundle.get("PlayerTwoDefault"), getSkin(), "medium-large");
         playerTwoTitle.setAlignment(Align.left);
-        lblplayerTwoName = new Label("Name", getSkin());
-        txtplayerTwoName = new TextField("Player2", getSkin());
-        lblplayerTwoShape = new Label("Shape", getSkin());
-        cboPlayerTwoShape = new SelectBox<Player.PlayerType>(getSkin());
-        cboPlayerTwoShape.setItems(new Player.PlayerType[] {Player.PlayerType.PLAYER_TYPE_X, Player.PlayerType.PLAYER_TYPE_O});
-        cboPlayerTwoShape.setSelected(settings.getPlayerTypeTwo());
-        cboPlayerTwoShape.addListener(new ChangeListener() {
+        lblplayerTwoName = new Label(i18NBundle.get("PlayerName"), getSkin());
+        txtplayerTwoName = new TextField(i18NBundle.get("PlayerTwoDefault"), getSkin());
+        lblplayerTwoShape = new Label(i18NBundle.get("Shape"), getSkin());
+        btnPlayerTwoShape = new TextButton("O", getSkin(), "toggle");
+        btnPlayerTwoShape.setChecked(true);
+        btnPlayerTwoShape.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                cboPlayerOneShape.setSelected(cboPlayerTwoShape.getSelected().getOpponent());
+                btnPlayerTwoShape.setText(!btnPlayerTwoShape.isChecked() ? "X" : "O");
+                btnPlayerOneShape.setChecked(!btnPlayerTwoShape.isChecked());
             }
         });
-
-        lblwhoStarts = new Label("Who starts?", getSkin(), "medium-large");
-        lblfirstMove = new Label("First move", getSkin());
-        lblByRotation = new Label("By rotation?", getSkin());
-        chkByRotation = new CheckBox("", getSkin());
-        cboFirstMovePlayer = new SelectBox<String>(getSkin());
-        cboFirstMovePlayer.setItems(new String[]{i18NBundle.get("PlayerOneDefault"), i18NBundle.get("PlayerTwoDefault")});
-        cboFirstMovePlayer.setAlignment(Align.left);
-
+        lblwhoStarts = new Label(i18NBundle.get("WhoStarts"), getSkin(), "medium-large");
+        lblfirstMove = new Label(i18NBundle.get("FirstMove"), getSkin());
+        lblByRotation = new Label(i18NBundle.get("ByRotation"), getSkin());
+        btnByRotation = new TextButton(i18NBundle.get("NoTxt"), getSkin(), "toggle");
+        btnByRotation.setChecked(true);
+        btnByRotation.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                btnByRotation.setText(btnByRotation.isChecked() ? i18NBundle.get("NoTxt") : i18NBundle.get("YesTxt"));
+            }
+        });
+        btnFirstMovePlayer = new TextButton(i18NBundle.get("PlayerOneDefault"), getSkin(), "toggle");
+        btnFirstMovePlayer.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                btnFirstMovePlayer.setText(!btnFirstMovePlayer.isChecked() ? i18NBundle.get("PlayerOneDefault") :
+                        i18NBundle.get("PlayerTwoDefault"));
+            }
+        });
         dialog.padTop(30).padBottom(30);
-        dialog.getContentTable().add(playerOneTitle).pad(30,30,0,30).row();
+        dialog.getContentTable().add(playerOneTitle).pad(30, 30, 0, 30).row();
         dialog.getContentTable().add(lblplayerOneName);
         dialog.getContentTable().add(txtplayerOneName).padRight(30).width(185).row();
         dialog.getContentTable().add(lblplayerOneShape);
-        dialog.getContentTable().add(cboPlayerOneShape).padRight(30).width(185).row();
+        dialog.getContentTable().add(btnPlayerOneShape).padRight(30).width(185).row();
 
-        dialog.getContentTable().add(playerTwoTitle).pad(30,30,0,30).row();
+        dialog.getContentTable().add(playerTwoTitle).pad(30, 30, 0, 30).row();
         dialog.getContentTable().add(lblplayerTwoName);
         dialog.getContentTable().add(txtplayerTwoName).padRight(30).width(185).row();
         dialog.getContentTable().add(lblplayerTwoShape);
-        dialog.getContentTable().add(cboPlayerTwoShape).padRight(30).width(185).row();
+        dialog.getContentTable().add(btnPlayerTwoShape).padRight(30).width(185).row();
 
-        dialog.getContentTable().add(lblwhoStarts).pad(30,30,0,30).row();
+        dialog.getContentTable().add(lblwhoStarts).pad(30, 30, 0, 30).row();
         dialog.getContentTable().add(lblfirstMove);
-        dialog.getContentTable().add(cboFirstMovePlayer).width(185).left().row();
+        dialog.getContentTable().add(btnFirstMovePlayer).width(185).left().row();
         dialog.getContentTable().add(lblByRotation);
-        dialog.getContentTable().add(chkByRotation).left();
+        dialog.getContentTable().add(btnByRotation).width(185).left();
 
         dialog.getButtonTable().padTop(30);
-        //medium-large-font
         dialog.button(start, true);
     }
 
@@ -155,19 +161,14 @@ public class MultiplayerDialog extends BaseDialog {
     private void setParameters(){
         settings.setPlayerOneName(txtplayerOneName.getText());
         settings.setPlayerTwoName(txtplayerTwoName.getText());
-        settings.setPlayerTypeOne(cboPlayerOneShape.getSelected());
-        settings.setPlayerTypeTwo(cboPlayerTwoShape.getSelected());
+        settings.setPlayerTypeOne(btnPlayerOneShape.isChecked() ? Player.PlayerType.PLAYER_TYPE_O :
+                Player.PlayerType.PLAYER_TYPE_X);
+        settings.setPlayerTypeTwo(settings.getPlayerTypeOne().getOpponent());
         settings.setModelTypePlayerOne(GameSettings.ModelType.HUMAN);
         settings.setModelTypePlayerTwo(GameSettings.ModelType.HUMAN);
-        if (cboFirstMovePlayer.getSelected() == i18NBundle.get("PlayerOneDefault")){
-            settings.setPlayerOneHasToStart(true);
-            settings.setPlayerTwoHasToStart(false);
-        }
-        else if (cboFirstMovePlayer.getSelected() == i18NBundle.get("PlayerTwoDefault")){
-            settings.setPlayerOneHasToStart(false);
-            settings.setPlayerTwoHasToStart(true);
-        }
-        settings.setPlayedByRotation(chkByRotation.isChecked());
+        settings.setPlayerOneHasToStart(!btnFirstMovePlayer.isChecked());
+        settings.setPlayerTwoHasToStart(btnFirstMovePlayer.isChecked());
+        settings.setPlayedByRotation(!btnByRotation.isChecked());
         settings.setGamePlayMode(GameSettings.GamePlayMode.MULTIPLAYER);
     }
 }

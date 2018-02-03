@@ -32,10 +32,6 @@ public class GamePlayHandler {
         this.game = game;
     }
 
-    public TicTacToeBoard getBoard() {
-        return board;
-    }
-
     public Boolean handleTouch(Vector2 v) {
         if (board.gameOver())
             return false;
@@ -46,7 +42,7 @@ public class GamePlayHandler {
                 if (!board.setCell(v, turn ? playerOne.getPlayerType().getBrand() : playerTwo.getPlayerType().getBrand()))
                     return false;
                 if (!board.gameOver()) {
-                    Timer.schedule(playerAIMovementTask, 1.0f);
+                    Timer.schedule(playerAIMovementTask, 0.666f);
                 }
             } else if (settings.getGamePlayMode() == GameSettings.GamePlayMode.MULTIPLAYER) {
                 if (!board.setCell(v, turn ? playerOne.getPlayerType().getBrand() : playerTwo.getPlayerType().getBrand()))
@@ -138,7 +134,6 @@ public class GamePlayHandler {
                 playerTwo = new AIPlayer(settings.getPlayerTwoName(), settings.getPlayerTypeTwo(), board, settings.getPlayerTwoHasToStart(), getDifficultyLevel());
                 break;
         }
-
         playerAIMovementTask = new Timer.Task() {
             @Override
             public void run() {
@@ -147,14 +142,12 @@ public class GamePlayHandler {
                     board.setCellLive(board.getCellQueue().first());
             }
         };
-
         if (settings.getGamePlayMode() == GameSettings.GamePlayMode.SINGLEPLAYER && settings.getPlayerTwoHasToStart()) {
             if (!board.gameOver())
-                Timer.schedule(playerAIMovementTask, 1.0f);
+                Timer.schedule(playerAIMovementTask, 0.666f);
             settings.setPlayerOneHasToStart(true);
             turn = true;
         }
-
         gameScore = String.format("%d : %d", playerOneScore, playerTwoScore);
     }
 
@@ -225,10 +218,13 @@ public class GamePlayHandler {
 
     public String messages() {
         if (board.gameOver())
-            return "Game Over!";
+            return GameSettings.getnBundle().get("GameOver");
         if (playerAIMovementTask.isScheduled())
-            return "Think...";
-        return String.format("Turn of %s!", turn ? settings.getPlayerOneName() : settings.getPlayerTwoName());
+            return GameSettings.getnBundle().get("Thinking");
+        String turns = (settings.getGamePlayMode() == GameSettings.GamePlayMode.SINGLEPLAYER) ?
+                GameSettings.getnBundle().get("YourTurn") : String.format("%s %s", turn ?
+                settings.getPlayerOneName() : settings.getPlayerTwoName(), GameSettings.getnBundle().get("GameTurn"));
+        return turns;
     }
 
     public String getGameScore() {

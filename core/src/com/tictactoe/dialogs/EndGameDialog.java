@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.tictactoe.game.EndGameDialogCallback;
 import com.tictactoe.game.TictactoeGame;
 
@@ -22,9 +23,11 @@ public class EndGameDialog extends BaseDialog {
     private Label message;
     private String nameOfWinner;
     private Boolean hasWinner;
+    private I18NBundle i18NBundle;
 
     public EndGameDialog(TictactoeGame game, Boolean hasWinner, String nameOfWinner) {
         super(game);
+        this.i18NBundle = game.getAssets().getManager().get("resources/messages", I18NBundle.class);
         this.nameOfWinner = nameOfWinner;
         this.hasWinner = hasWinner;
         dialog = new com.badlogic.gdx.scenes.scene2d.ui.Dialog("", getSkin()) {
@@ -51,7 +54,8 @@ public class EndGameDialog extends BaseDialog {
         });
         this.dialog.getTitleTable().add(closeWindowsButton);
         restartGameButton = new ImageButton(getSkin(), "restart");
-        message = new Label(hasWinner ? "Congratulations " + this.nameOfWinner + " you won the game!" : "It's a tie!", getSkin());
+        message = new Label(hasWinner ? String.format("%s %s", this.nameOfWinner, i18NBundle.get("WonMessage"))  :
+                i18NBundle.get("DrawMessage"), getSkin());
         message.setWrap(true);
         message.setAlignment(Align.center);
         dialog.padTop(30).padBottom(30);

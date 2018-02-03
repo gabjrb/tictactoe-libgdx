@@ -35,15 +35,15 @@ public class SingleplayerDialog extends BaseDialog {
     // Player Definition
     //
     private Label lblplayeShape;
-    private SelectBox<Player.PlayerType> cboPlayerShape;
+    private TextButton btnPlayerShape;
     //
     // Game
     //
     private Label lblwhoStarts;
     private Label lblfirstMove;
     private Label lblByRotation;
-    private CheckBox chkByRotation;
-    private SelectBox<String> cboFirstMovePlayer;
+    private TextButton btnByRotation;
+    private TextButton btnFirstMovePlayer;
     private TictactoeGame game;
     private GameSettings settings;
     private I18NBundle i18NBundle;
@@ -81,8 +81,7 @@ public class SingleplayerDialog extends BaseDialog {
             }
         });
         this.dialog.getTitleTable().add(closeWindowsButton);
-        start = new TextButton("Start", getSkin());
-
+        start = new TextButton(i18NBundle.get("StartGame"), getSkin());
         gameModLabel = new Label(i18NBundle.get("GameMod"), getSkin());
         cboGameMod = new SelectBox<GameSettings.GameMod>(getSkin());
         cboGameMod.setItems(GameSettings.GameMod.NORMAL, GameSettings.GameMod.EXPIRING_MOVES);
@@ -90,29 +89,45 @@ public class SingleplayerDialog extends BaseDialog {
         cboDifficulty = new SelectBox<GameSettings.Difficulty>(getSkin());
         cboDifficulty.setItems(GameSettings.Difficulty.EASY, GameSettings.Difficulty.MEDIUM,
                 GameSettings.Difficulty.HARD, GameSettings.Difficulty.UNBEATABLE);
-        lblplayeShape = new Label("Shape", getSkin());
-        cboPlayerShape = new SelectBox<Player.PlayerType>(getSkin());
-        cboPlayerShape.setItems(new Player.PlayerType[]{Player.PlayerType.PLAYER_TYPE_X, Player.PlayerType.PLAYER_TYPE_O});
-        lblwhoStarts = new Label("Who starts?", getSkin(), "medium-large");
-        lblfirstMove = new Label("First move", getSkin());
-        lblByRotation = new Label("By rotation?", getSkin());
-        chkByRotation = new CheckBox("", getSkin());
-        cboFirstMovePlayer = new SelectBox<String>(getSkin());
-        cboFirstMovePlayer.setItems(new String[]{i18NBundle.get("PlayerOneDefaultSingle"), i18NBundle.get("PlayerTwoDefaultSingle")});
-        cboFirstMovePlayer.setAlignment(Align.left);
-
+        lblplayeShape = new Label(i18NBundle.get("Shape"), getSkin());
+        btnPlayerShape = new TextButton("X", getSkin(), "toggle");
+        btnPlayerShape.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                btnPlayerShape.setText(!btnPlayerShape.isChecked() ? "X" : "O");
+            }
+        });
+        lblwhoStarts = new Label(i18NBundle.get("WhoStarts"), getSkin(), "medium-large");
+        lblfirstMove = new Label(i18NBundle.get("FirstMove"), getSkin());
+        lblByRotation = new Label(i18NBundle.get("ByRotation"), getSkin());
+        btnByRotation = new TextButton(i18NBundle.get("NoTxt"), getSkin(), "toggle");
+        btnByRotation.setChecked(true);
+        btnByRotation.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                btnByRotation.setText(btnByRotation.isChecked() ? i18NBundle.get("NoTxt") : i18NBundle.get("YesTxt"));
+            }
+        });
+        btnFirstMovePlayer = new TextButton(i18NBundle.get("PlayerOneDefaultSingle"), getSkin(), "toggle");
+        btnFirstMovePlayer.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                btnFirstMovePlayer.setText(!btnFirstMovePlayer.isChecked() ? i18NBundle.get("PlayerOneDefaultSingle") :
+                        i18NBundle.get("PlayerTwoDefaultSingle"));
+            }
+        });
         dialog.padTop(30).padBottom(30);
         dialog.getContentTable().add(lblplayeShape).pad(30, 30, 0, 30);
-        dialog.getContentTable().add(cboPlayerShape).padRight(30).padTop(30).width(185).row();
+        dialog.getContentTable().add(btnPlayerShape).padRight(30).padTop(30).width(190).row();
         dialog.getContentTable().add(difficultyLabel).pad(30, 30, 0, 30);
-        dialog.getContentTable().add(cboDifficulty).padRight(30).padTop(30).width(185).row();
+        dialog.getContentTable().add(cboDifficulty).padRight(30).padTop(30).width(190).row();
         dialog.getContentTable().add(gameModLabel).pad(30, 30, 0, 30);
-        dialog.getContentTable().add(cboGameMod).padRight(30).padTop(30).width(185).row();
+        dialog.getContentTable().add(cboGameMod).padRight(30).padTop(30).width(190).row();
         dialog.getContentTable().add(lblwhoStarts).pad(30, 30, 0, 30).row();
         dialog.getContentTable().add(lblfirstMove);
-        dialog.getContentTable().add(cboFirstMovePlayer).width(185).left().row();
+        dialog.getContentTable().add(btnFirstMovePlayer).width(190).left().row();
         dialog.getContentTable().add(lblByRotation);
-        dialog.getContentTable().add(chkByRotation).left();
+        dialog.getContentTable().add(btnByRotation).width(190).left();
         dialog.getButtonTable().padTop(30);
         dialog.button(start, true);
     }
@@ -120,21 +135,16 @@ public class SingleplayerDialog extends BaseDialog {
     private void setParameters(){
         settings.setPlayerOneName(i18NBundle.get("PlayerOneDefaultSingle"));
         settings.setPlayerTwoName(i18NBundle.get("PlayerTwoDefaultSingle"));
-        settings.setPlayerTypeOne(cboPlayerShape.getSelected());
-        settings.setPlayerTypeTwo(cboPlayerShape.getSelected().getOpponent());
+        settings.setPlayerTypeOne(btnPlayerShape.isChecked() ? Player.PlayerType.PLAYER_TYPE_O :
+                Player.PlayerType.PLAYER_TYPE_X);
+        settings.setPlayerTypeTwo(settings.getPlayerTypeOne().getOpponent());
         settings.setModelTypePlayerOne(GameSettings.ModelType.HUMAN);
         settings.setModelTypePlayerTwo(GameSettings.ModelType.COMPUTER);
         settings.setDifficulty(cboDifficulty.getSelected());
         settings.setGameMod(cboGameMod.getSelected());
-        if (cboFirstMovePlayer.getSelected() == i18NBundle.get("PlayerOneDefaultSingle")){
-            settings.setPlayerOneHasToStart(true);
-            settings.setPlayerTwoHasToStart(false);
-        }
-        else if (cboFirstMovePlayer.getSelected() == i18NBundle.get("PlayerTwoDefaultSingle")){
-            settings.setPlayerOneHasToStart(false);
-            settings.setPlayerTwoHasToStart(true);
-        }
-        settings.setPlayedByRotation(chkByRotation.isChecked());
+        settings.setPlayerOneHasToStart(!btnFirstMovePlayer.isChecked());
+        settings.setPlayerTwoHasToStart(btnFirstMovePlayer.isChecked());
+        settings.setPlayedByRotation(!btnByRotation.isChecked());
         settings.setGamePlayMode(GameSettings.GamePlayMode.SINGLEPLAYER);
     }
 }

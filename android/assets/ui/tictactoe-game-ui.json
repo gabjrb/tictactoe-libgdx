@@ -268,7 +268,7 @@
   "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
     "default": {
       "background": "window-w",
-      "titleFont": "default-font",
+      "titleFont": "small-font",
       "titleFontColor": "white"
     }
   },

@@ -37,9 +37,8 @@ public class OptionsDialog extends BaseDialog {
         super(game);
         this.game = game;
         this.i18NBundle = this.game.getAssets().getManager().get("resources/messages", I18NBundle.class);
-        dialog = new com.badlogic.gdx.scenes.scene2d.ui.Dialog("Options", getSkin()) {
+        dialog = new com.badlogic.gdx.scenes.scene2d.ui.Dialog(i18NBundle.get("Options"), getSkin()) {
             protected void result(Object object) {
-
             }
         };
         dialog.setModal(true);
@@ -60,9 +59,15 @@ public class OptionsDialog extends BaseDialog {
             }
         });
         this.dialog.getTitleTable().add(closeWindowsButton);
-        fxLabel = new Label("Effects", getSkin());
-        fxButton = new TextButton("Yes", getSkin(), "toggle");
-        languageLabel = new Label("Language", getSkin());
+        fxLabel = new Label(i18NBundle.get("Effects"), getSkin());
+        fxButton = new TextButton(i18NBundle.get("YesTxt"), getSkin(), "toggle");
+        fxButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                fxButton.setText(!fxButton.isChecked() ? i18NBundle.get("YesTxt") : i18NBundle.get("NoTxt"));
+            }
+        });
+        languageLabel = new Label(i18NBundle.get("Language"), getSkin());
         cboLanguage = new SelectBox<GameOptions.Languages>(getSkin());
         cboLanguage.setItems(GameOptions.Languages.ENGLISH, GameOptions.Languages.SPANISH, GameOptions.Languages.PORTUGUESE);
         cboLanguage.setSelected(GameOptions.getInstance().getLanguage());
@@ -74,12 +79,10 @@ public class OptionsDialog extends BaseDialog {
                 game.setScreen(new SplashScreen(game));
             }
         });
-        dialog.getContentTable().setWidth(260);
-        dialog.padTop(30).padBottom(30);
-        dialog.getContentTable().add(fxLabel).pad(30, 30, 0, 30).row();
-        dialog.getContentTable().add(fxButton).padRight(30).padTop(30).width(185).row();
+        dialog.getContentTable().add(fxLabel).pad(60, 60, 0, 60).row();
+        dialog.getContentTable().add(fxButton).pad(15, 60, 0, 60).width(185).row();
         dialog.getContentTable().add(languageLabel).pad(30, 30, 0, 30).row();
-        dialog.getContentTable().add(cboLanguage).padRight(30).padTop(30).width(185).row();
+        dialog.getContentTable().add(cboLanguage).pad(15, 30, 60, 30).width(185).row();
     }
 
     public void showDialog(Stage stage){

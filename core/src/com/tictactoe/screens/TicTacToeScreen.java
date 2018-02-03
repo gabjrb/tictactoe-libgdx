@@ -127,23 +127,21 @@ public class TicTacToeScreen extends BaseScreen {
 
     private void renderPieceDetail(){
         if (gamePlayHandler.getCelltobeRemoved().getCellBrand() != TicTacToeCell.CellBrand.NOTHING) {
-            Vector3 worldLocation = new Vector3(gamePlayHandler.getCelltobeRemoved().getShapeData().getPositionX(),
-                    gamePlayHandler.getCelltobeRemoved().getShapeData().getPositionY(), 0);
             pieceDetailBatch.setProjectionMatrix(cameraGame.combined);
             pieceDetailBatch.begin();
             BitmapFont cellRemainFnt = skin.getFont("piece-detail-font");
             cellRemainFnt.setColor(Color.RED);
             cellRemainFnt.getData().setScale(0.225f);
-            cellRemainFnt.draw(pieceDetailBatch, String.format("%d", gamePlayHandler.getCelltobeRemoved().getLives()), worldLocation.x, worldLocation.y);
+            cellRemainFnt.draw(pieceDetailBatch, String.format("%d", gamePlayHandler.getCelltobeRemoved().getLives()),
+                    gamePlayHandler.getCelltobeRemoved().getShapeData().getPositionX(),
+                    gamePlayHandler.getCelltobeRemoved().getShapeData().getPositionY());
             pieceDetailBatch.end();
         }
     }
 
     @Override
     public void show() {
-
         sound = Gdx.audio.newSound(Gdx.files.internal("resources/board-sound.wav"));
-
         gamePlayHandler.gamePlayInitializer();
         //
         // Screen configuration

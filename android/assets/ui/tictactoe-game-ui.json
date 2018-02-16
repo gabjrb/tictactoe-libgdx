@@ -1,16 +1,16 @@
 {
   "com.badlogic.gdx.graphics.g2d.BitmapFont": {
     "default-font": {
-      "file": "font/verdana-medium.fnt"
+      "file": "font/century-gothic-medium.fnt"
     },
     "big-font": {
-      "file": "font/verdana-big.fnt"
+      "file": "font/century-gothic-big.fnt"
     },
     "medium-large-font": {
-      "file": "font/verdana-medium-large.fnt"
+      "file": "font/century-gothic-medium-large.fnt"
     },
     "small-font": {
-      "file": "font/verdana-small.fnt"
+      "file": "font/century-gothic-small.fnt"
     },
     "piece-detail-font": {
       "file": "font/piece-detail.fnt"
@@ -23,11 +23,17 @@
       "b": 0,
       "a": 1
     },
+    "light-gray": {
+      "r": 0.86666666,
+      "g": 0.87058823,
+      "b": 0.86666666,
+      "a": 0.95
+    },
     "gray": {
       "r": 0.5,
       "g": 0.5,
       "b": 0.5,
-      "a": 0.9
+      "a": 1
     },
     "white": {
       "r": 1,
@@ -45,7 +51,7 @@
       "r": 0.3372549,
       "g": 0.8,
       "b": 0.44705883,
-      "a": 0.5
+      "a": 1
     },
     "pressed": {
       "r": 0.2529412,
@@ -58,7 +64,20 @@
       "g": 0.59607846,
       "b": 0.85882354,
       "a": 1
+    },
+    "c-cancel": {
+      "r": 0.79215686,
+      "g": 0.32549019,
+      "b": 0.33333333,
+      "a": 1
+    },
+    "c-cancel-pressed": {
+      "r": 0.70196078,
+      "g": 0.21568627,
+      "b": 0.22352941,
+      "a": 1
     }
+
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
     "button-c": {
@@ -83,11 +102,11 @@
     },
     "close-c": {
       "name": "button-close",
-      "color": "color"
+      "color": "c-cancel"
     },
     "close-p": {
       "name": "button-close",
-      "color": "pressed"
+      "color": "c-cancel-pressed"
     },
     "restart-c": {
       "name": "restart-ico",
@@ -113,9 +132,17 @@
       "name": "circle-shape",
       "color": "color"
     },
+    "cross-c-score": {
+      "name": "cross-shape-96",
+      "color": "gray"
+    },
+    "circle-c-score": {
+      "name": "circle-shape-96",
+      "color": "gray"
+    },
     "window-w": {
       "name": "window",
-      "color": "gray"
+      "color": "light-gray"
     },
     "textfield-c": {
       "name": "textfield",
@@ -168,6 +195,14 @@
     "radio-pressed-p": {
       "name": "radio-pressed",
       "color": "pressed"
+    },
+    "button-cancel-c": {
+      "name": "button",
+      "color": "c-cancel"
+    },
+    "button-cancel-p": {
+      "name": "button",
+      "color": "c-cancel-pressed"
     }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
@@ -191,6 +226,13 @@
       "up": "button-c",
       "down": "button-p",
       "checked": "button-p"
+    },
+    "cancel-default": {
+      "font": "default-font",
+      "fontColor": "white",
+      "downFontColor": "white",
+      "up": "button-cancel-c",
+      "down": "button-cancel-p"
     }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle": {
@@ -231,10 +273,10 @@
       "imageDown": "close-p"
     },
     "player-cross": {
-      "imageUp": "cross-c"
+      "imageUp": "cross-c-score"
     },
     "player-circle": {
-      "imageUp": "circle-c"
+      "imageUp": "circle-c-score"
     }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {

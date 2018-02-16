@@ -1,19 +1,19 @@
 
 tictactoe-game-ui.png
-size: 1024,1024
+size: 2048,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 back-ico
   rotate: false
-  xy: 80, 54
+  xy: 872, 438
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 button
   rotate: false
-  xy: 878, 650
+  xy: 1986, 974
   size: 56, 42
   split: 18, 18, 0, 0
   pad: 13, 14, 3, 2
@@ -22,58 +22,100 @@ button
   index: -1
 button-close
   rotate: false
-  xy: 878, 600
+  xy: 2, 2
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 button-pressed
   rotate: false
-  xy: 2, 7
+  xy: 516, 202
   size: 56, 42
   split: 18, 18, 0, 0
   pad: 13, 14, 3, 2
   orig: 56, 42
   offset: 0, 0
   index: -1
+century-gothic-big
+  rotate: false
+  xy: 2, 504
+  size: 720, 512
+  orig: 720, 512
+  offset: 0, 0
+  index: -1
+century-gothic-medium
+  rotate: false
+  xy: 2, 182
+  size: 512, 320
+  orig: 512, 320
+  offset: 0, 0
+  index: -1
+century-gothic-medium-large
+  rotate: false
+  xy: 724, 504
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+century-gothic-small
+  rotate: false
+  xy: 1600, 696
+  size: 384, 320
+  orig: 384, 320
+  offset: 0, 0
+  index: -1
 checkbox
   rotate: false
-  xy: 880, 574
+  xy: 1796, 670
   size: 29, 24
   orig: 29, 24
   offset: 0, 0
   index: -1
 checkbox-pressed
   rotate: false
-  xy: 326, 320
+  xy: 840, 380
   size: 29, 24
   orig: 29, 24
   offset: 0, 0
   index: -1
 circle-shape
   rotate: false
-  xy: 878, 760
+  xy: 2, 52
   size: 128, 128
   orig: 128, 128
+  offset: 0, 0
+  index: -1
+circle-shape-96
+  rotate: false
+  xy: 774, 406
+  size: 96, 96
+  orig: 96, 96
   offset: 0, 0
   index: -1
 cross-shape
   rotate: false
-  xy: 878, 890
+  xy: 1600, 566
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
+cross-shape-96
+  rotate: false
+  xy: 132, 84
+  size: 96, 96
+  orig: 96, 96
+  offset: 0, 0
+  index: -1
 game-background
   rotate: false
-  xy: 2, 378
+  xy: 1238, 376
   size: 360, 640
   orig: 360, 640
   offset: 0, 0
   index: -1
 list
   rotate: false
-  xy: 944, 719
+  xy: 1600, 456
   size: 39, 39
   split: 1, 1, 1, 1
   pad: 2, 2, 2, 2
@@ -82,56 +124,56 @@ list
   index: -1
 options-fill-ico
   rotate: false
-  xy: 260, 312
+  xy: 1730, 630
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 options-ico
   rotate: false
-  xy: 260, 246
+  xy: 230, 116
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 piece-detail
   rotate: false
-  xy: 364, 342
+  xy: 516, 246
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
 radio-pressed
   rotate: false
-  xy: 146, 72
+  xy: 774, 314
   size: 29, 24
   orig: 29, 24
   offset: 0, 0
   index: -1
 restart-ico
   rotate: false
-  xy: 878, 694
+  xy: 774, 340
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 scrollbar
   rotate: false
-  xy: 1008, 1008
+  xy: 872, 426
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 scrollbar-android
   rotate: false
-  xy: 2, 2
+  xy: 938, 499
   size: 3, 3
   orig: 3, 3
   offset: 0, 0
   index: -1
 select-box
   rotate: false
-  xy: 146, 98
+  xy: 1678, 544
   size: 39, 20
   split: 4, 15, 4, 4
   pad: 2, 16, 2, 2
@@ -140,7 +182,7 @@ select-box
   index: -1
 select-box-pressed
   rotate: false
-  xy: 260, 224
+  xy: 1730, 608
   size: 39, 20
   split: 4, 15, 4, 4
   pad: 2, 16, 2, 2
@@ -149,51 +191,23 @@ select-box-pressed
   index: -1
 textfield
   rotate: false
-  xy: 326, 346
+  xy: 132, 52
   size: 30, 30
   split: 4, 4, 4, 4
   pad: 4, 4, 1, 1
   orig: 30, 30
   offset: 0, 0
   index: -1
-verdana-big
-  rotate: false
-  xy: 364, 762
-  size: 512, 256
-  orig: 512, 256
-  offset: 0, 0
-  index: -1
-verdana-medium
-  rotate: false
-  xy: 622, 342
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
-verdana-medium-large
-  rotate: false
-  xy: 364, 600
-  size: 512, 160
-  orig: 512, 160
-  offset: 0, 0
-  index: -1
-verdana-small
-  rotate: false
-  xy: 2, 120
-  size: 256, 256
-  orig: 256, 256
-  offset: 0, 0
-  index: -1
 white
   rotate: false
-  xy: 80, 51
+  xy: 230, 113
   size: 1, 1
   orig: 1, 1
   offset: 0, 0
   index: -1
 window
   rotate: false
-  xy: 2, 51
+  xy: 1600, 497
   size: 76, 67
   split: 2, 2, 32, 2
   pad: 2, 2, 34, 2
